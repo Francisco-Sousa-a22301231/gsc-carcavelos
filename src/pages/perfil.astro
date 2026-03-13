@@ -1,0 +1,215 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+---
+
+<Layout title="Perfil" description="A tua área de sócio no Grupo Sportivo de Carcavelos.">
+  <PageHeader
+    badge="Área Pessoal"
+    title="O Meu"
+    highlight="Perfil"
+    description="Consulta os teus dados e histórico de quotas."
+  />
+
+  <section class="section">
+    <div class="container container--md">
+      <!-- Auth check message -->
+      <div id="auth-check" class="auth-message reveal">
+        <p>A verificar autenticação...</p>
+      </div>
+
+      <!-- Profile content (hidden until auth confirmed) -->
+      <div id="profile-content" style="display:none;">
+        <!-- Member Info -->
+        <div class="profile-card card reveal">
+          <div class="profile-header">
+            <div class="profile-avatar">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div>
+              <h2 class="text-h3" id="profile-name">-</h2>
+              <p class="text-secondary" id="profile-email">-</p>
+            </div>
+          </div>
+
+          <div class="profile-details">
+            <div class="detail-row">
+              <span class="detail-label">Categoria</span>
+              <span class="detail-value" id="profile-category">-</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">NIF</span>
+              <span class="detail-value" id="profile-nif">-</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Telemóvel</span>
+              <span class="detail-value" id="profile-phone">-</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Morada</span>
+              <span class="detail-value" id="profile-address">-</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quota History -->
+        <div class="quota-section reveal reveal-delay-1">
+          <h3 class="text-h3">Histórico de Quotas</h3>
+          <div id="quota-timeline" class="timeline">
+            <p class="text-secondary">A carregar histórico...</p>
+          </div>
+        </div>
+
+        <!-- Logout -->
+        <div class="profile-actions reveal reveal-delay-2">
+          <button id="logout-btn" class="btn btn--secondary btn--pill">
+            Terminar Sessão
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const authCheck = document.getElementById('auth-check');
+    const profileContent = document.getElementById('profile-content');
+    const token = localStorage.getItem('userToken');
+    const role = localStorage.getItem('userRole');
+
+    if (!token || (!role || role === '')) {
+      if (authCheck) {
+        authCheck.innerHTML = `
+          <div style="text-align:center;">
+            <p style="margin-bottom: 1rem;">Precisas de iniciar sessão para aceder ao teu perfil.</p>
+            <a href="/login" class="btn btn--primary btn--pill">Iniciar Sessão</a>
+          </div>
+        `;
+      }
+      return;
+    }
+
+    // Show profile
+    if (authCheck) authCheck.style.display = 'none';
+    if (profileContent) profileContent.style.display = 'block';
+
+    // Load member data
+    fetch('/api/member', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.success && data.member) {
+        const m = data.member;
+        const setEl = (id: string, val: string) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = val || '-';
+        };
+        setEl('profile-name', m.name || m.nome);
+        setEl('profile-email', m.email);
+        setEl('profile-category', m.category || m.categoria);
+        setEl('profile-nif', m.nif);
+        setEl('profile-phone', m.phone || m.telemovel);
+        setEl('profile-address', m.address || m.morada);
+
+        // Render quota history
+        const timeline = document.getElementById('quota-timeline');
+        if (timeline && data.quotas && data.quotas.length > 0) {
+          timeline.innerHTML = data.quotas.map((q: any) => `
+            <div class="timeline__item">
+              <div class="timeline__dot"></div>
+              <div class="timeline__year">${q.year || q.ano}</div>
+              <div class="timeline__content">${q.status === 'paid' ? 'Pago' : 'Pendente'} — ${q.amount || ''}€</div>
+            </div>
+          `).join('');
+        } else if (timeline) {
+          timeline.innerHTML = '<p class="text-secondary">Sem histórico de quotas registado.</p>';
+        }
+      }
+    })
+    .catch(() => {});
+
+    // Logout
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('userName');
+        window.location.href = '/login';
+      });
+    }
+  });
+</script>
+
+<style>
+  .auth-message {
+    text-align: center;
+    padding: var(--space-10) 0;
+  }
+
+  .profile-card {
+    padding: var(--space-8);
+    margin-bottom: var(--space-8);
+  }
+
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .profile-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--color-accent-muted);
+    color: var(--color-accent-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .profile-details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2) 0;
+  }
+
+  .detail-label {
+    font-size: var(--fs-small);
+    font-weight: var(--fw-medium);
+    color: var(--color-text-tertiary);
+  }
+
+  .detail-value {
+    font-size: var(--fs-small);
+    color: var(--color-text-primary);
+    font-weight: var(--fw-medium);
+  }
+
+  .quota-section {
+    margin-bottom: var(--space-8);
+  }
+
+  .quota-section h3 {
+    margin-bottom: var(--space-6);
+  }
+
+  .profile-actions {
+    display: flex;
+    justify-content: center;
+  }
+</style>

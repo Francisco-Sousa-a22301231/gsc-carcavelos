@@ -1,0 +1,115 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+---
+
+<Layout title="Karaté" description="Karaté no Grupo Sportivo de Carcavelos — Arte marcial japonesa para todas as idades.">
+  <PageHeader
+    badge="Karaté"
+    title="Karaté"
+    highlight="GSC"
+    description="Arte marcial japonesa para todas as idades e níveis."
+  />
+
+  <!-- About -->
+  <section class="section">
+    <div class="container container--md">
+      <div class="content-block reveal">
+        <p class="text-body-lg">
+          O karaté é uma arte marcial japonesa que combina disciplina mental com técnica física. No GSC, a prática do karaté está aberta a todas as idades e níveis de experiência, desde iniciantes a praticantes avançados.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="section bg-grid">
+    <div class="container container--md">
+      <div class="section-header reveal">
+        <span class="badge">Valores</span>
+        <h2 class="text-h2">Os Valores do <span class="text-gradient">Karaté</span></h2>
+      </div>
+
+      <div class="grid grid--3">
+        <div class="card step-card reveal">
+          <div class="step-card__header">
+            <div class="step-card__icon step-card__icon--amber">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+          </div>
+          <h3 class="text-h4">Disciplina</h3>
+          <p class="text-secondary">Desenvolvimento da autodisciplina e da concentração através da prática regular.</p>
+        </div>
+        <div class="card step-card reveal reveal-delay-1">
+          <div class="step-card__header">
+            <div class="step-card__icon step-card__icon--green">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+          </div>
+          <h3 class="text-h4">Respeito</h3>
+          <p class="text-secondary">Respeito pelo mestre, pelos colegas e pela tradição da arte marcial.</p>
+        </div>
+        <div class="card step-card reveal reveal-delay-2">
+          <div class="step-card__header">
+            <div class="step-card__icon step-card__icon--violet">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+          </div>
+          <h3 class="text-h4">Técnica</h3>
+          <p class="text-secondary">Aperfeiçoamento contínuo das técnicas de kata, kumite e defesa pessoal.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Training Info -->
+  <section class="section">
+    <div class="container container--md">
+      <div class="info-notice reveal">
+        <div class="info-notice__icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        </div>
+        <div>
+          <h3 class="text-h4">Horários de Treino</h3>
+          <p class="text-secondary">Os horários de treino de karaté serão atualizados em breve. Para mais informações, contacte o clube.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .content-block {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .content-block p {
+    line-height: var(--lh-relaxed);
+  }
+
+  .info-notice {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    background: var(--color-accent-muted);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-border-accent);
+  }
+
+  .info-notice__icon {
+    color: var(--color-accent-text);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .info-notice h3 {
+    margin-bottom: var(--space-2);
+  }
+
+  .info-notice p {
+    font-size: var(--fs-small);
+    line-height: var(--lh-relaxed);
+  }
+</style>

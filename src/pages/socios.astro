@@ -1,0 +1,259 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { socioBenefits, socioDuties } from '../data/site-content';
+---
+
+<Layout title="Sócios" description="Torna-te sócio do Grupo Sportivo de Carcavelos. Benefícios, formulário de inscrição e deveres dos sócios.">
+  <PageHeader
+    badge="Sócios"
+    title="Torna-te"
+    highlight="Sócio"
+    description="Faz parte do GSC e desfruta de todas as vantagens de pertencer ao nosso clube."
+  />
+
+  <!-- Benefits -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="badge">Vantagens</span>
+        <h2 class="text-h2">Benefícios de ser <span class="text-gradient">Sócio</span></h2>
+      </div>
+      <div class="grid grid--3">
+        {socioBenefits.map((benefit, i) => (
+          <div class={`card step-card reveal reveal-delay-${(i % 3) + 1}`}>
+            <div class="step-card__header">
+              <div class={`step-card__icon step-card__icon--${benefit.color}`}>
+                <Fragment set:html={benefit.icon} />
+              </div>
+            </div>
+            <h3 class="text-h4">{benefit.title}</h3>
+            <p class="text-secondary">{benefit.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Registration Form -->
+  <section class="section bg-grid">
+    <div class="container container--md">
+      <div class="section-header reveal">
+        <span class="badge">Inscrição</span>
+        <h2 class="text-h2">Formulário de <span class="text-gradient">Inscrição</span></h2>
+        <p>Preenche o formulário abaixo para te tornares sócio do GSC.</p>
+      </div>
+
+      <div class="register-card card reveal">
+        <form id="register-form" class="register-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nome" class="form-label">Nome Completo</label>
+              <input type="text" id="nome" name="nome" class="form-input" placeholder="O teu nome completo" required />
+            </div>
+            <div class="form-group">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" id="email" name="email" class="form-input" placeholder="o.teu@email.com" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" id="password" name="password" class="form-input" placeholder="Cria uma password" required />
+            </div>
+            <div class="form-group">
+              <label for="nascimento" class="form-label">Data de Nascimento</label>
+              <input type="date" id="nascimento" name="nascimento" class="form-input" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nif" class="form-label">NIF</label>
+              <input type="text" id="nif" name="nif" class="form-input" placeholder="Número de contribuinte" required />
+            </div>
+            <div class="form-group">
+              <label for="telemovel" class="form-label">Telemóvel</label>
+              <input type="tel" id="telemovel" name="telemovel" class="form-input" placeholder="+351 9XX XXX XXX" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="morada" class="form-label">Morada</label>
+            <input type="text" id="morada" name="morada" class="form-input" placeholder="A tua morada completa" required />
+          </div>
+
+          <div class="form-group">
+            <label for="categoria" class="form-label">Categoria</label>
+            <select id="categoria" name="categoria" class="form-input" required>
+              <option value="">Selecionar categoria</option>
+              <option value="regular">Regular</option>
+              <option value="estudante">Estudante</option>
+              <option value="familiar">Familiar</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="sugestoes" class="form-label">Sugestões (opcional)</label>
+            <textarea id="sugestoes" name="sugestoes" class="form-input" rows="3" placeholder="Alguma sugestão ou comentário?"></textarea>
+          </div>
+
+          <div id="register-status" class="register-status" style="display:none;"></div>
+
+          <button type="submit" class="btn btn--primary btn--lg" style="width:100%;">
+            Submeter Inscrição
+            <span class="btn-arrow">&rarr;</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Duties -->
+  <section class="section">
+    <div class="container container--sm">
+      <div class="section-header reveal">
+        <span class="badge">Responsabilidades</span>
+        <h2 class="text-h2">Deveres dos <span class="text-gradient">Sócios</span></h2>
+      </div>
+      <div class="duties-list reveal">
+        {socioDuties.map((duty, i) => (
+          <div class={`duty-item reveal reveal-delay-${(i % 3) + 1}`}>
+            <div class="duty-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <p>{duty}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const form = document.getElementById('register-form') as HTMLFormElement;
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const statusEl = document.getElementById('register-status') as HTMLElement;
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const res = await fetch('/api/socios', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const result = await res.json();
+
+        statusEl.style.display = 'block';
+        if (result.success) {
+          statusEl.className = 'register-status register-status--success';
+          statusEl.textContent = 'Inscrição submetida com sucesso! Receberá um email de confirmação.';
+          form.reset();
+        } else {
+          statusEl.className = 'register-status register-status--error';
+          statusEl.textContent = result.message || 'Erro ao submeter inscrição. Tente novamente.';
+        }
+      } catch (err) {
+        statusEl.style.display = 'block';
+        statusEl.className = 'register-status register-status--error';
+        statusEl.textContent = 'Erro de ligação. Tente novamente.';
+      }
+    });
+  });
+</script>
+
+<style>
+  .register-card {
+    padding: var(--space-10);
+  }
+
+  .register-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
+  }
+
+  .register-form textarea.form-input {
+    resize: vertical;
+  }
+
+  .register-form select.form-input {
+    cursor: pointer;
+    appearance: auto;
+  }
+
+  .register-status {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    font-size: var(--fs-small);
+    text-align: center;
+  }
+
+  .register-status--success {
+    background: rgba(52, 211, 153, 0.1);
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    color: #059669;
+  }
+
+  .register-status--error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: var(--color-danger);
+  }
+
+  .duties-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .duty-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-surface-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+
+  .duty-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-md);
+    background: var(--color-accent-muted);
+    color: var(--color-accent-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .duty-item p {
+    font-size: var(--fs-small);
+    color: var(--color-text-secondary);
+    line-height: var(--lh-relaxed);
+  }
+
+  @media (max-width: 640px) {
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .register-card {
+      padding: var(--space-6);
+    }
+  }
+</style>

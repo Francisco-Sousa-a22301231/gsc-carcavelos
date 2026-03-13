@@ -1,0 +1,153 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+---
+
+<Layout title="Repositório Digital" description="Documentos oficiais do Grupo Sportivo de Carcavelos: regulamentos, estatutos e relatórios de contas.">
+  <PageHeader
+    badge="Documentos"
+    title="Repositório"
+    highlight="Digital"
+    description="Documentos oficiais, regulamentos e relatórios do Grupo Sportivo de Carcavelos."
+  />
+
+  <!-- Regulamentos -->
+  <section class="section">
+    <div class="container container--md">
+      <div class="section-header reveal">
+        <span class="badge">Regulamentos</span>
+        <h2 class="text-h2">Documentos <span class="text-gradient">Oficiais</span></h2>
+      </div>
+
+      <div class="docs-grid">
+        <article class="doc-card card reveal">
+          <div class="doc-card__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </div>
+          <div class="doc-card__content">
+            <h3 class="text-h4">Regulamento Geral Interno 2025</h3>
+            <p class="text-secondary">Regulamento que rege o funcionamento interno do Grupo Sportivo de Carcavelos.</p>
+          </div>
+          <a href="#" class="btn btn--secondary btn--sm btn--pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </a>
+        </article>
+
+        <article class="doc-card card reveal reveal-delay-1">
+          <div class="doc-card__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </div>
+          <div class="doc-card__content">
+            <h3 class="text-h4">Regimento Eleitoral 2025</h3>
+            <p class="text-secondary">Regras e procedimentos para eleições dos órgãos sociais do clube.</p>
+          </div>
+          <a href="#" class="btn btn--secondary btn--sm btn--pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Relatórios e Contas -->
+  <section class="section bg-grid">
+    <div class="container container--md">
+      <div class="section-header reveal">
+        <span class="badge">Finanças</span>
+        <h2 class="text-h2">Relatórios e <span class="text-gradient">Contas</span></h2>
+        <p>Relatórios de contas do clube para consulta dos sócios.</p>
+      </div>
+
+      <div class="docs-grid">
+        {[2015, 2014, 2013, 2012, 2011, 2010, 2009].map((year, i) => (
+          <article class={`doc-card card reveal reveal-delay-${(i % 3) + 1}`}>
+            <div class="doc-card__icon doc-card__icon--amber">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <div class="doc-card__content">
+              <h3 class="text-h4">Relatório e Contas {year}</h3>
+              <p class="text-secondary">Relatório de atividades e contas do exercício de {year}.</p>
+            </div>
+            <a href="#" class="btn btn--secondary btn--sm btn--pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download
+            </a>
+          </article>
+        ))}
+      </div>
+
+      <p class="docs-note text-tertiary reveal">
+        Nota: Em produção, os documentos serão geridos via painel de administração e ligados à base de dados.
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .docs-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .doc-card {
+    padding: var(--space-5) var(--space-6);
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+  }
+
+  .doc-card__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-lg);
+    background: var(--color-accent-muted);
+    color: var(--color-accent-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .doc-card__icon--amber {
+    background: var(--color-accent-2-muted);
+    color: var(--color-accent-2);
+  }
+
+  .doc-card__content {
+    flex: 1;
+  }
+
+  .doc-card__content h3 {
+    margin-bottom: var(--space-1);
+  }
+
+  .doc-card__content p {
+    font-size: var(--fs-small);
+    line-height: var(--lh-relaxed);
+  }
+
+  .doc-card .btn {
+    flex-shrink: 0;
+  }
+
+  .docs-note {
+    text-align: center;
+    font-size: var(--fs-small);
+    margin-top: var(--space-8);
+  }
+
+  @media (max-width: 640px) {
+    .doc-card {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-3);
+    }
+
+    .doc-card .btn {
+      align-self: flex-start;
+    }
+  }
+</style>

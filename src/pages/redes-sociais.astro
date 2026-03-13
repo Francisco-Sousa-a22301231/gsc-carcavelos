@@ -1,0 +1,108 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { siteConfig } from '../data/site-content';
+---
+
+<Layout title="Redes Sociais" description="Siga o Grupo Sportivo de Carcavelos nas redes sociais.">
+  <PageHeader
+    badge="Social"
+    title="Redes"
+    highlight="Sociais"
+    description="Acompanha o GSC nas redes sociais e fica a par de todas as novidades."
+  />
+
+  <section class="section">
+    <div class="container container--md">
+      <div class="grid grid--3">
+        <!-- Facebook -->
+        <a href={siteConfig.social.facebook} target="_blank" rel="noopener noreferrer" class="card card--interactive social-card reveal">
+          <div class="social-card__icon social-card__icon--facebook">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </div>
+          <h3 class="text-h4">Facebook</h3>
+          <p class="text-secondary">Acompanha as novidades e eventos do clube.</p>
+          <span class="social-card__link">
+            Seguir &rarr;
+          </span>
+        </a>
+
+        <!-- Instagram -->
+        <a href={siteConfig.social.instagram} target="_blank" rel="noopener noreferrer" class="card card--interactive social-card reveal reveal-delay-1">
+          <div class="social-card__icon social-card__icon--instagram">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+          </div>
+          <h3 class="text-h4">Instagram</h3>
+          <p class="text-secondary">Fotos e stories dos treinos e jogos.</p>
+          <span class="social-card__link">
+            Seguir &rarr;
+          </span>
+        </a>
+
+        <!-- YouTube -->
+        <a href={siteConfig.social.youtube} target="_blank" rel="noopener noreferrer" class="card card--interactive social-card reveal reveal-delay-2">
+          <div class="social-card__icon social-card__icon--youtube">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.43z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="white"/></svg>
+          </div>
+          <h3 class="text-h4">YouTube</h3>
+          <p class="text-secondary">Vídeos de jogos, resumos e momentos especiais.</p>
+          <span class="social-card__link">
+            Seguir &rarr;
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .social-card {
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .social-card__icon {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .social-card__icon--facebook {
+    background: rgba(24, 119, 242, 0.12);
+    color: #1877F2;
+  }
+
+  .social-card__icon--instagram {
+    background: rgba(225, 48, 108, 0.12);
+    color: #E1306C;
+  }
+
+  .social-card__icon--youtube {
+    background: rgba(255, 0, 0, 0.12);
+    color: #FF0000;
+  }
+
+  .social-card p {
+    font-size: var(--fs-small);
+    line-height: var(--lh-relaxed);
+  }
+
+  .social-card__link {
+    font-size: var(--fs-small);
+    font-weight: var(--fw-semibold);
+    color: var(--color-accent-text);
+    transition: transform var(--transition-fast);
+  }
+
+  .social-card:hover .social-card__link {
+    transform: translateX(4px);
+  }
+</style>

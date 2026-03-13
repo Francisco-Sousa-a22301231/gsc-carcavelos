@@ -1,0 +1,300 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import AdminNav from '../../components/AdminNav.astro';
+---
+
+<Layout title="Gestao de Cores" description="Gerir cores do site do GSC Carcavelos.">
+  <PageHeader
+    badge="Cores"
+    title="Personalizar"
+    highlight="Cores"
+    description="Interface para personalizar as cores principais e secundarias do website."
+  />
+
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <AdminNav />
+
+      <div class="card reveal reveal-delay-2" style="padding: var(--space-8); margin-top: var(--space-8);">
+        <div class="admin-header">
+          <div style="flex: 1;">
+            <h3 class="text-h3" style="margin-bottom: var(--space-2);">Esquemas de Cor</h3>
+            <p class="text-secondary">Podes escolher um dos temas pre-definidos, ou usar os seletores para personalizar a tua propria paleta de cores. As alteracoes aplicam-se imediatamente no computador para pre-visualizacao, e podes guardar para aplicar a todos os utilizadores.</p>
+          </div>
+          <div class="admin-header__actions">
+            <button class="btn btn--primary" id="save-colors-btn" onclick="saveColorsConfig()">Guardar Cores</button>
+          </div>
+        </div>
+
+        <div class="presets-section" style="margin-top: var(--space-8); margin-bottom: var(--space-6);">
+            <h4 class="text-h4" style="margin-bottom: var(--space-4);">Temas Rapidos</h4>
+            <div class="presets-grid" style="display: flex; gap: var(--space-4); flex-wrap: wrap;">
+                <button class="preset-btn btn btn--secondary" onclick="applyPreset('#1a5276', '#27ae60', '#e67e22')">
+                   <div class="preset-colors">
+                      <div class="color-dot" style="background:#1a5276"></div>
+                      <div class="color-dot" style="background:#27ae60"></div>
+                      <div class="color-dot" style="background:#e67e22"></div>
+                   </div>
+                   Original GSC
+                </button>
+                <button class="preset-btn btn btn--secondary" onclick="applyPreset('#3b82f6', '#10b981', '#f59e0b')">
+                   <div class="preset-colors">
+                      <div class="color-dot" style="background:#3b82f6"></div>
+                      <div class="color-dot" style="background:#10b981"></div>
+                      <div class="color-dot" style="background:#f59e0b"></div>
+                   </div>
+                   Oceano
+                </button>
+                <button class="preset-btn btn btn--secondary" onclick="applyPreset('#8b5cf6', '#ec4899', '#14b8a6')">
+                   <div class="preset-colors">
+                      <div class="color-dot" style="background:#8b5cf6"></div>
+                      <div class="color-dot" style="background:#ec4899"></div>
+                      <div class="color-dot" style="background:#14b8a6"></div>
+                   </div>
+                   Vibrante
+                </button>
+                <button class="preset-btn btn btn--secondary" onclick="applyPreset('#111827', '#4b5563', '#9ca3af')">
+                   <div class="preset-colors">
+                      <div class="color-dot" style="background:#111827"></div>
+                      <div class="color-dot" style="background:#4b5563"></div>
+                      <div class="color-dot" style="background:#9ca3af"></div>
+                   </div>
+                   Noturno (Escuro)
+                </button>
+                <button class="preset-btn btn btn--secondary" onclick="applyPreset('#ef4444', '#f97316', '#eab308')">
+                   <div class="preset-colors">
+                      <div class="color-dot" style="background:#ef4444"></div>
+                      <div class="color-dot" style="background:#f97316"></div>
+                      <div class="color-dot" style="background:#eab308"></div>
+                   </div>
+                   Por do Sol
+                </button>
+                <button class="preset-btn btn btn--secondary" onclick="applyPreset('#10b981', '#0ea5e9', '#6366f1')">
+                   <div class="preset-colors">
+                      <div class="color-dot" style="background:#10b981"></div>
+                      <div class="color-dot" style="background:#0ea5e9"></div>
+                      <div class="color-dot" style="background:#6366f1"></div>
+                   </div>
+                   Natureza Nova
+                </button>
+            </div>
+        </div>
+
+        <div class="color-wheels-section" style="margin-top: var(--space-8); padding-top: var(--space-6); border-top: 1px solid var(--color-border);">
+            <h4 class="text-h4" style="margin-bottom: var(--space-4);">Roda de Cores Personalizada</h4>
+
+            <div class="custom-colors-grid">
+               <div class="color-input-group">
+                  <label class="form-label" for="color-accent">Cor Primaria (Accent)</label>
+                  <p class="text-xs text-muted" style="margin-bottom: var(--space-2); font-size: 11px;">Botoes principais, titulos em destaque, links ativos.</p>
+                  <input type="color" id="color-accent" class="color-picker" value="#1a5276" oninput="updateLiveColor('accent', this.value)" />
+                  <input type="text" id="color-accent-text" class="form-input custom-hex-input" value="#1a5276" oninput="updateLiveColorFromInput('accent', this.value)" />
+               </div>
+
+               <div class="color-input-group">
+                  <label class="form-label" for="color-accent-2">Cor Secundaria (Accent 2)</label>
+                  <p class="text-xs text-muted" style="margin-bottom: var(--space-2); font-size: 11px;">Icones secundarios, destaques secundarios.</p>
+                  <input type="color" id="color-accent-2" class="color-picker" value="#27ae60" oninput="updateLiveColor('accent-2', this.value)" />
+                  <input type="text" id="color-accent-2-text" class="form-input custom-hex-input" value="#27ae60" oninput="updateLiveColorFromInput('accent-2', this.value)" />
+               </div>
+
+               <div class="color-input-group">
+                  <label class="form-label" for="color-accent-3">Cor Terciaria (Accent 3)</label>
+                  <p class="text-xs text-muted" style="margin-bottom: var(--space-2); font-size: 11px;">Acentos complementares e badges.</p>
+                  <input type="color" id="color-accent-3" class="color-picker" value="#e67e22" oninput="updateLiveColor('accent-3', this.value)" />
+                  <input type="text" id="color-accent-3-text" class="form-input custom-hex-input" value="#e67e22" oninput="updateLiveColorFromInput('accent-3', this.value)" />
+               </div>
+            </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  let currentColors: Record<string, string> = {
+      'accent': '#1a5276',
+      'accent-2': '#27ae60',
+      'accent-3': '#e67e22'
+  };
+
+  async function loadColorsAdmin() {
+    const role = localStorage.getItem('userRole');
+    if (role !== 'admin') {
+      window.location.href = '/login';
+      return;
+    }
+
+    // Attempt to load from localStorage or server to pre-fill
+    const saved = localStorage.getItem('site_colors');
+    if (saved) {
+       try {
+           const parsed = JSON.parse(saved);
+           if (parsed['accent']) currentColors['accent'] = parsed['accent'];
+           if (parsed['accent-2']) currentColors['accent-2'] = parsed['accent-2'];
+           if (parsed['accent-3']) currentColors['accent-3'] = parsed['accent-3'];
+       } catch(e) {}
+    } else {
+        try {
+            const req = await fetch('/api/colors');
+            const data = await req.json();
+            if (data.success && data.colors) {
+                if (data.colors['accent']) currentColors['accent'] = data.colors['accent'];
+                if (data.colors['accent-2']) currentColors['accent-2'] = data.colors['accent-2'];
+                if (data.colors['accent-3']) currentColors['accent-3'] = data.colors['accent-3'];
+            }
+        } catch(e) {}
+    }
+
+    syncUI();
+  }
+
+  function syncUI() {
+      (document.getElementById('color-accent') as HTMLInputElement).value = currentColors['accent'];
+      (document.getElementById('color-accent-text') as HTMLInputElement).value = currentColors['accent'];
+
+      (document.getElementById('color-accent-2') as HTMLInputElement).value = currentColors['accent-2'];
+      (document.getElementById('color-accent-2-text') as HTMLInputElement).value = currentColors['accent-2'];
+
+      (document.getElementById('color-accent-3') as HTMLInputElement).value = currentColors['accent-3'];
+      (document.getElementById('color-accent-3-text') as HTMLInputElement).value = currentColors['accent-3'];
+  }
+
+  (window as any).applyPreset = (c1: string, c2: string, c3: string) => {
+      currentColors['accent'] = c1;
+      currentColors['accent-2'] = c2;
+      currentColors['accent-3'] = c3;
+
+      syncUI();
+
+      (window as any).updateLiveColor('accent', c1);
+      (window as any).updateLiveColor('accent-2', c2);
+      (window as any).updateLiveColor('accent-3', c3);
+  };
+
+  (window as any).updateLiveColor = (key: string, val: string) => {
+     currentColors[key] = val;
+
+     const elText = document.getElementById(`color-${key}-text`) as HTMLInputElement;
+     if (elText) elText.value = val;
+
+     const root = document.documentElement;
+     const hexToRgb = (hex: string) => {
+        hex = hex.replace('#', '');
+        if (hex.length === 3) hex = hex.split('').map(c => c+c).join('');
+        return `${parseInt(hex.slice(0,2),16)}, ${parseInt(hex.slice(2,4),16)}, ${parseInt(hex.slice(4,6),16)}`;
+     };
+
+     try {
+         const rgb = hexToRgb(val);
+         root.style.setProperty(`--color-${key}`, val);
+         root.style.setProperty(`--color-${key}-hover`, val);
+         root.style.setProperty(`--color-${key}-text`, val);
+         root.style.setProperty(`--color-${key}-muted`, `rgba(${rgb}, 0.15)`);
+         root.style.setProperty(`--color-${key}-glow`, `rgba(${rgb}, 0.2)`);
+     } catch(e) {}
+  };
+
+  (window as any).updateLiveColorFromInput = (key: string, val: string) => {
+     if (/^#[0-9A-F]{6}$/i.test(val) || /^#[0-9A-F]{3}$/i.test(val)) {
+         const elColor = document.getElementById(`color-${key}`) as HTMLInputElement;
+         if (elColor) elColor.value = val;
+         (window as any).updateLiveColor(key, val);
+     }
+  };
+
+  (window as any).saveColorsConfig = async () => {
+      const btn = document.getElementById('save-colors-btn');
+      if (btn) btn.innerText = 'A guardar...';
+
+      try {
+          const res = await fetch('/api/colors', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ colors: currentColors })
+          });
+          const data = await res.json();
+          if (data.success) {
+              localStorage.setItem('site_colors', JSON.stringify(currentColors));
+              alert('Cores guardadas com sucesso! Estas cores aplicar-se-ao a todos os utilizadores.');
+          } else {
+              alert('Falha ao guardar configuracoes.');
+          }
+      } catch(e) {
+          alert('Erro de comunicacao.');
+      }
+
+      if (btn) btn.innerText = 'Guardar Cores';
+  };
+
+  loadColorsAdmin();
+  document.addEventListener('astro:after-swap', loadColorsAdmin);
+</script>
+
+<style>
+  .preset-colors {
+      display: flex;
+      gap: 4px;
+      margin-right: var(--space-2);
+  }
+  .color-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.1);
+  }
+  .preset-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: var(--space-2) var(--space-4);
+      background: var(--color-bg-primary);
+  }
+  .custom-colors-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+  }
+  .color-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+      background: var(--color-bg-primary);
+      padding: var(--space-4);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+  }
+  .color-picker {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 64px;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--space-2);
+  }
+  .color-picker::-webkit-color-swatch {
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border);
+  }
+  .color-picker::-moz-color-swatch {
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border);
+  }
+  .custom-hex-input {
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      text-align: center;
+  }
+  @media (max-width: 768px) {
+      .custom-colors-grid {
+          grid-template-columns: 1fr;
+      }
+  }
+</style>

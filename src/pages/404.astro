@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Página não encontrada" description="A página que procura não foi encontrada no site do Grupo Sportivo de Carcavelos.">
+  <section class="error-page">
+    <div class="container error-page__content">
+      <span class="error-code reveal">404</span>
+      <h1 class="text-h1 reveal reveal-delay-1">Página não encontrada</h1>
+      <p class="text-body-lg reveal reveal-delay-2">
+        A página que procura não existe ou foi movida. Verifique o endereço ou volte à página inicial.
+      </p>
+      <a href="/" class="btn btn--primary btn--lg btn--pill reveal reveal-delay-3">
+        Voltar ao Início
+        <span class="btn-arrow">&rarr;</span>
+      </a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .error-page {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-24) 0;
+  }
+
+  .error-page__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
+    max-width: 480px;
+  }
+
+  .error-code {
+    font-family: var(--font-display);
+    font-size: clamp(6rem, 15vw, 10rem);
+    font-weight: var(--fw-extrabold);
+    line-height: 1;
+    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .error-page p {
+    color: var(--color-text-secondary);
+  }
+</style>

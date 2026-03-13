@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { events } from '../data/site-content';
+---
+
+<Layout title="Eventos" description="Calendário de eventos e atividades do Grupo Sportivo de Carcavelos.">
+  <PageHeader
+    badge="Eventos"
+    title="Calendário de"
+    highlight="Eventos"
+    description="Acompanha o calendário de atividades e eventos do GSC ao longo da época."
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="steps-grid">
+        {events.map((event, i) => (
+          <div class={`card step-card reveal reveal-delay-${(i % 2) + 1}`}>
+            <div class="step-card__header">
+              <div class={`step-card__icon step-card__icon--${event.color}`}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              </div>
+              <span class="step-card__date">{event.date}</span>
+            </div>
+            <h3 class="text-h4">{event.title}</h3>
+            <p class="text-secondary">{event.desc}</p>
+            <span class="badge--subtle badge" style="align-self: flex-start;">{event.tag}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .steps-grid {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+</style>

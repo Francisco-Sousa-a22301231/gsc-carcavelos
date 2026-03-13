@@ -1,0 +1,41 @@
+---
+const currentPath = Astro.url.pathname;
+---
+<div class="admin-nav">
+  <a href="/admin" class={`admin-nav__link ${currentPath === '/admin' ? 'active' : ''}`}>Socios</a>
+  <a href="/admin/documentos" class={`admin-nav__link ${currentPath === '/admin/documentos' ? 'active' : ''}`}>Documentos</a>
+  <a href="/admin/eventos" class={`admin-nav__link ${currentPath === '/admin/eventos' ? 'active' : ''}`}>Eventos</a>
+  <a href="/admin/noticias" class={`admin-nav__link ${currentPath === '/admin/noticias' ? 'active' : ''}`}>Noticias</a>
+  <a href="/admin/media" class={`admin-nav__link ${currentPath === '/admin/media' ? 'active' : ''}`}>Media</a>
+  <a href="/admin/cores" class={`admin-nav__link ${currentPath === '/admin/cores' ? 'active' : ''}`}>Cores</a>
+</div>
+
+<style>
+  .admin-nav {
+    display: flex;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-4);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .admin-nav__link {
+    font-size: var(--fs-small);
+    font-weight: var(--fw-semibold);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+  }
+  .admin-nav__link:hover {
+    background: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+  }
+  .admin-nav__link.active {
+    background: var(--color-accent-muted);
+    color: var(--color-accent);
+  }
+</style>

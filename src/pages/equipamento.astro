@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+---
+
+<Layout title="Equipamento" description="Equipamento oficial do Grupo Sportivo de Carcavelos.">
+  <PageHeader
+    badge="Equipamento"
+    title="Equipamento"
+    highlight="Oficial"
+    description="O equipamento oficial do Grupo Sportivo de Carcavelos."
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="empty-state reveal">
+        <div class="empty-state__icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M20.38 3.46L16 2 12 4 8 2 3.62 3.46a2 2 0 0 0-1.34 1.89v13.3a2 2 0 0 0 2.66 1.89L8 19l4 2 4-2 3.06 1.54a2 2 0 0 0 2.66-1.89V5.35a2 2 0 0 0-1.34-1.89z"/></svg>
+        </div>
+        <h2 class="text-h3">Brevemente disponível</h2>
+        <p class="text-secondary">As informações sobre o equipamento oficial do GSC estarão disponíveis em breve.</p>
+        <a href="/" class="btn btn--secondary btn--pill">
+          Voltar ao Início
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .empty-state {
+    text-align: center;
+    padding: var(--space-16) 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-5);
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .empty-state__icon {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-2xl);
+    background: var(--color-accent-muted);
+    color: var(--color-accent-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .empty-state p {
+    font-size: var(--fs-body-lg);
+    line-height: var(--lh-relaxed);
+  }
+</style>

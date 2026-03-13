@@ -1,0 +1,994 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import AdminNav from '../components/AdminNav.astro';
+---
+
+<Layout title="Administracao" description="Painel de Administracao do GSC Carcavelos.">
+  <PageHeader
+    badge="Gestao Central"
+    title="Painel de"
+    highlight="Administracao"
+    description="Interface administrativa para gestao da base de dados de socios, quotas e comunidade."
+  />
+
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <AdminNav />
+      <!-- Stats Overview -->
+      <div class="stats-grid reveal">
+        <div class="stat-card card">
+          <div class="stat-card__icon" style="background: var(--color-accent-muted); color: var(--color-accent-text);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="stat-card__data">
+            <span class="stat-card__label">Total de Socios</span>
+            <h3 class="stat-card__value" id="stat-total">0</h3>
+          </div>
+        </div>
+        <div class="stat-card card">
+          <div class="stat-card__icon" style="background: var(--color-accent-2-muted); color: var(--color-accent-2);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="stat-card__data">
+            <span class="stat-card__label">Em Dia</span>
+            <h3 class="stat-card__value" id="stat-paid">0</h3>
+          </div>
+        </div>
+        <div class="stat-card card">
+          <div class="stat-card__icon" style="background: var(--color-accent-3-muted); color: var(--color-accent-3);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="stat-card__data">
+            <span class="stat-card__label">Em Divida</span>
+            <h3 class="stat-card__value" id="stat-debt">0</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Table Card -->
+      <div class="card reveal reveal-delay-2" style="padding: var(--space-8); margin-top: var(--space-8);">
+        <div class="admin-header">
+          <div class="admin-header__search">
+            <div class="search-input-wrapper">
+              <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="member-search" class="form-input" placeholder="Pesquisar por nome ou email..." />
+            </div>
+          </div>
+          <div class="admin-header__actions" style="display: flex; gap: var(--space-3);">
+            <button class="btn btn--primary btn--sm" onclick="openAddMemberModal()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right: 6px;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              Novo Socio
+            </button>
+            <button class="btn btn--secondary btn--sm" onclick="logout()">Sair do Admin</button>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Socio</th>
+                <th>Estado</th>
+                <th>Data Adesao</th>
+                <th>Contacto</th>
+                <th style="text-align: right;">Acoes</th>
+              </tr>
+            </thead>
+            <tbody id="members-list">
+              <tr><td colspan="5" style="text-align:center; padding: 4rem;">A carregar lista de socios...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Member Details Modal -->
+  <div id="member-modal" class="modal">
+    <div class="modal__overlay" onclick="closeModal()"></div>
+    <div class="modal__content card">
+      <div class="modal__header-banner">
+        <button class="modal__close-btn" onclick="closeModal()" title="Fechar">
+           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal__scroll-area">
+        <div class="modal__profile-top">
+          <div class="profile-avatar" id="modal-avatar">
+            <!-- Initials will go here -->
+          </div>
+          <div class="profile-meta">
+            <h3 id="modal-profile-name" class="text-h3">Nome do Socio</h3>
+            <div id="modal-profile-status">
+               <!-- Status Badge will go here -->
+            </div>
+          </div>
+        </div>
+
+        <div class="modal__body" id="modal-body">
+           <div class="loader-container"><div class="loader"></div><p>A carregar detalhes...</p></div>
+        </div>
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn--secondary" onclick="closeModal()">Fechar Painel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Member Modal -->
+  <div id="add-member-modal" class="modal">
+    <div class="modal__overlay" onclick="closeAddMemberModal()"></div>
+    <div class="modal__content card" style="max-width: 700px;">
+      <div class="modal__header-banner" style="height: auto; padding: var(--space-6) var(--space-8) 0;">
+        <h3 class="text-h3">Novo <span class="text-gradient">Socio</span></h3>
+        <p class="text-tertiary" style="margin-top: var(--space-1)">Inscricao manual de membro do clube.</p>
+        <button class="modal__close-btn" onclick="closeAddMemberModal()" title="Fechar">
+           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal__scroll-area" style="padding-top: var(--space-6);">
+        <form id="add-member-form">
+          <div class="form-grid">
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label class="form-label" for="new-nome">Nome Completo *</label>
+              <input type="text" id="new-nome" name="nome" class="form-input" required placeholder="Nome do socio" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="new-email">E-mail *</label>
+              <input type="email" id="new-email" name="email" class="form-input" required placeholder="email@exemplo.com" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="new-nif">NIF *</label>
+              <input type="text" id="new-nif" name="nif" class="form-input" required placeholder="9 digitos" maxlength="9" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="new-nascimento">Data de Nascimento *</label>
+              <input type="date" id="new-nascimento" name="nascimento" class="form-input" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="new-telemovel">Telemovel</label>
+              <input type="tel" id="new-telemovel" name="telemovel" class="form-input" placeholder="9xxxxxxxx" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="new-categoria">Categoria</label>
+              <select id="new-categoria" name="categoria" class="form-input">
+                <option value="efectivo">Efectivo</option>
+                <option value="atleta">Atleta</option>
+                <option value="junior">Junior</option>
+                <option value="honorario">Honorario</option>
+                <option value="veterano">Veterano</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="new-password">Password Inicial *</label>
+              <input type="text" id="new-password" name="password" class="form-input" required value="gsc2024" />
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: var(--space-4);">
+            <label class="form-label" for="new-morada">Morada</label>
+            <input type="text" id="new-morada" name="morada" class="form-input" placeholder="Rua, no, localidade" />
+          </div>
+          <div class="form-group" style="margin-top: var(--space-4);">
+            <label class="form-label" for="new-sugestoes">Notas / Observacoes</label>
+            <textarea id="new-sugestoes" name="sugestoes" class="form-input" rows="2" placeholder="Notas internas..."></textarea>
+          </div>
+          <div id="add-member-error" style="color: #ef4444; font-size: 13px; margin-top: var(--space-4); display: none;"></div>
+        </form>
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn--secondary" style="margin-right: auto;" onclick="closeAddMemberModal()">Cancelar</button>
+        <button type="submit" form="add-member-form" class="btn btn--primary" id="btn-save-member">Registar Socio</button>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  let ALL_MEMBERS = [] as any[];
+
+  async function loadAdmin() {
+    const role = localStorage.getItem('userRole');
+    if (role !== 'admin') {
+      window.location.href = '/login';
+      return;
+    }
+
+    const tbody = document.getElementById('members-list');
+    if (!tbody) return;
+
+    try {
+      const res = await fetch('/api/members');
+      const data = await res.json();
+
+      if (data.success && data.members) {
+        ALL_MEMBERS = data.members;
+        renderMembers(ALL_MEMBERS);
+        updateStats(ALL_MEMBERS);
+      }
+    } catch (e) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 2rem; color:red;">Erro ao carregar os dados.</td></tr>';
+    }
+  }
+
+  function renderMembers(membersList: any[]) {
+    const tbody = document.getElementById('members-list');
+    if (!tbody) return;
+
+    if (membersList.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 4rem;">Nenhum socio encontrado.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = membersList.map(m => {
+      const date = new Date(m.created_at).toLocaleDateString('pt-PT');
+      const isPaid = m.latest_status === 'Pago';
+      const statusClass = isPaid ? 'status--paid' : 'status--debt';
+      const statusText = isPaid ? 'Em Dia' : 'Em Divida';
+
+      return `
+        <tr onclick="openMemberDetails('${m.email}')" style="cursor: pointer;">
+          <td>
+            <div class="member-info">
+              <span class="member-name">${m.nome}</span>
+              <span class="member-email">${m.email}</span>
+            </div>
+          </td>
+          <td>
+            <span class="status-badge ${statusClass}">${statusText}</span>
+          </td>
+          <td>${date}</td>
+          <td>${m.telemovel || 'N/A'}</td>
+          <td style="text-align: right;">
+            <button class="action-btn action-btn--icon-only" onclick="event.stopPropagation(); openMemberDetails('${m.email}')" title="Ver Detalhes">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function updateStats(members: any[]) {
+    const total = members.length;
+    const paid = members.filter(m => m.latest_status === 'Pago').length;
+    const debt = members.filter(m => m.latest_status !== 'Pago').length;
+
+    const totalEl = document.getElementById('stat-total');
+    const paidEl = document.getElementById('stat-paid');
+    const debtEl = document.getElementById('stat-debt');
+
+    if (totalEl) totalEl.textContent = total.toString();
+    if (paidEl) paidEl.textContent = paid.toString();
+    if (debtEl) debtEl.textContent = debt.toString();
+  }
+
+  // Search Logic
+  const searchInput = document.getElementById('member-search') as HTMLInputElement;
+  searchInput?.addEventListener('input', (e) => {
+    const query = (e.target as HTMLInputElement).value.toLowerCase();
+    const filtered = ALL_MEMBERS.filter(m =>
+      m.nome.toLowerCase().includes(query) ||
+      m.email.toLowerCase().includes(query)
+    );
+    renderMembers(filtered);
+  });
+
+  // Modal Logic
+  (window as any).openMemberDetails = async (email: string) => {
+    const modal = document.getElementById('member-modal');
+    const body = document.getElementById('modal-body');
+    const nameEl = document.getElementById('modal-profile-name');
+    const avatarEl = document.getElementById('modal-avatar');
+    const statusEl = document.getElementById('modal-profile-status');
+
+    if (!modal || !body || !nameEl || !avatarEl || !statusEl) return;
+
+    modal.classList.add('active');
+    body.innerHTML = '<div class="loader-container"><div class="loader"></div><p>A carregar dados do socio...</p></div>';
+    nameEl.textContent = 'A carregar...';
+    avatarEl.innerHTML = '';
+    statusEl.innerHTML = '';
+
+    try {
+      const res = await fetch(`/api/member?email=${email}`);
+      const data = await res.json();
+      if (data.success) {
+        const u = data.user;
+        const q = data.quotas;
+
+        // Setup Avatar & Header
+        nameEl.textContent = u.nome;
+        const initials = u.nome.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase();
+        avatarEl.textContent = initials;
+
+        const latestPaid = q.length > 0 && q.every((quota: any) => quota.status === 'Pago');
+        statusEl.innerHTML = `<span class="status-badge ${latestPaid ? 'status--paid' : 'status--debt'}">${latestPaid ? 'Status OK' : 'Pagamentos em Atraso'}</span>`;
+
+        body.innerHTML = `
+          <div class="profile-layout">
+            <div class="profile-sidebar">
+              <section class="profile-section">
+                <div class="section-label">Dados Pessoais</div>
+                <div class="profile-info-grid">
+                  <div class="info-item">
+                    <div class="info-item__head">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                      <label>E-mail</label>
+                      <button class="copy-btn" onclick="copyText('${u.email}', this)" title="Copiar e-mail">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                      </button>
+                    </div>
+                    <strong>${u.email}</strong>
+                  </div>
+                  <div class="info-item">
+                    <div class="info-item__head">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                      <label>NIF</label>
+                    </div>
+                    <strong>${u.nif}</strong>
+                  </div>
+                  <div class="info-item">
+                    <div class="info-item__head">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                      <label>Telemovel</label>
+                    </div>
+                    <strong>${u.telemovel || '\u2014'}</strong>
+                  </div>
+                  <div class="info-item">
+                    <div class="info-item__head">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                      <label>Morada</label>
+                    </div>
+                    <strong>${u.morada || '\u2014'}</strong>
+                  </div>
+                </div>
+              </section>
+
+              <section class="profile-section">
+                <div class="section-label">Observacoes</div>
+                <div class="observations-box">
+                  <p>${u.sugestoes || 'Sem observacoes ou sugestoes registadas.'}</p>
+                </div>
+              </section>
+            </div>
+
+            <div class="profile-main">
+              <section class="profile-section">
+                <div class="section-label-row">
+                   <div class="section-label">Historico de Quotas</div>
+                   <span class="quota-count">${q.length} Registo(s)</span>
+                </div>
+                <div class="quota-timeline">
+                  ${q.length > 0 ? q.sort((a:any, b:any) => b.ano - a.ano).map((quota: any) => `
+                    <div class="timeline-item ${quota.status === 'Pago' ? 'is-paid' : 'is-pending'}">
+                      <div class="timeline-marker"></div>
+                      <div class="timeline-content">
+                        <div class="quota-info">
+                          <span class="quota-year">${quota.ano}</span>
+                          <span class="quota-val">${quota.valor.toFixed(2)}\u20AC</span>
+                        </div>
+                        <div class="quota-status-area">
+                          ${quota.status === 'Pago'
+                            ? `<div class="tag tag--success">
+                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                                 Pago em ${new Date(quota.paid_at).toLocaleDateString('pt-PT')}
+                               </div>`
+                            : `<button class="btn btn--primary btn--xs" onclick="markPaid('${quota.id}', '${email}')">
+                                 Confirmar Recebimento
+                               </button>`
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  `).join('') : `
+                    <div class="empty-state">
+                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                      <p>Nenhuma quota registada para este socio.</p>
+                    </div>
+                  `}
+                </div>
+              </section>
+            </div>
+          </div>
+        `;
+      }
+    } catch {
+      body.innerHTML = '<div class="error-msg">Erro ao carregar os dados.</div>';
+    }
+  };
+
+  (window as any).markPaid = async (id: string, email: string) => {
+    if (!confirm('Confirmas o recebimento do pagamento desta quota?')) return;
+
+    try {
+      const res = await fetch('/api/admin/pay-quota', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quotaId: parseInt(id) })
+      });
+      const data = await res.json();
+      if (data.success) {
+        // Refresh modal
+        (window as any).openMemberDetails(email);
+        // Refresh underlying list
+        loadAdmin();
+      }
+    } catch {
+      alert('Erro ao processar o pagamento.');
+    }
+  }
+
+  (window as any).closeModal = () => {
+    const modal = document.getElementById('member-modal');
+    modal?.classList.remove('active');
+  };
+
+  (window as any).logout = async () => {
+    await fetch('/api/logout', { method: 'POST' });
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userEmail');
+    window.location.href = '/login';
+  };
+
+  (window as any).copyText = (text: string, btn: HTMLElement) => {
+    navigator.clipboard.writeText(text);
+    const original = btn.innerHTML;
+    btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
+    setTimeout(() => { btn.innerHTML = original; }, 2000);
+  }
+
+  // Add Member Functions
+  (window as any).openAddMemberModal = () => {
+    const modal = document.getElementById('add-member-modal');
+    modal?.classList.add('active');
+  };
+
+  (window as any).closeAddMemberModal = () => {
+    const modal = document.getElementById('add-member-modal');
+    const form = document.getElementById('add-member-form') as HTMLFormElement;
+    modal?.classList.remove('active');
+    form?.reset();
+    const errorEl = document.getElementById('add-member-error');
+    if (errorEl) {
+      errorEl.style.display = 'none';
+      errorEl.textContent = '';
+    }
+  };
+
+  const addMemberForm = document.getElementById('add-member-form') as HTMLFormElement;
+  addMemberForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('btn-save-member') as HTMLButtonElement;
+    const errorEl = document.getElementById('add-member-error');
+    if (!btn || !errorEl) return;
+
+    btn.disabled = true;
+    btn.textContent = 'A processar...';
+    errorEl.style.display = 'none';
+
+    try {
+      const formData = new FormData(addMemberForm);
+      const data = Object.fromEntries(formData.entries());
+
+      const res = await fetch('/api/admin/add-member', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        (window as any).closeAddMemberModal();
+        loadAdmin(); // Refresh list
+      } else {
+        errorEl.textContent = result.message || 'Erro ao adicionar socio.';
+        errorEl.style.display = 'block';
+      }
+    } catch {
+      errorEl.textContent = 'Erro de ligacao.';
+      errorEl.style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Registar Socio';
+    }
+  });
+
+  loadAdmin();
+  document.addEventListener('astro:after-swap', loadAdmin);
+</script>
+
+<style is:global>
+  .admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-8);
+    gap: var(--space-4);
+  }
+
+  .admin-header__search { flex: 1; max-width: 400px; }
+
+  .search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: var(--space-4);
+    color: var(--color-text-muted);
+    pointer-events: none;
+  }
+
+  .search-input-wrapper .form-input {
+    padding-left: 3rem;
+    height: 48px;
+    background: var(--color-bg-tertiary);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+  }
+
+  .stat-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    padding: var(--space-6);
+  }
+
+  .stat-card__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .stat-card__label {
+    font-size: var(--fs-xxs);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-wide);
+    color: var(--color-text-muted);
+    font-weight: var(--fw-medium);
+  }
+
+  .stat-card__value {
+    line-height: 1;
+    margin-top: 2px;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    width: 100%;
+    margin: 0 -1px;
+  }
+
+  .admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--fs-small);
+  }
+
+  .admin-table th, .admin-table td {
+    padding: var(--space-5) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .admin-table th {
+    text-align: left;
+    font-size: var(--fs-xxs);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-wider);
+    color: var(--color-text-muted);
+    font-weight: var(--fw-semibold);
+  }
+
+  .admin-table tr {
+    transition: all var(--transition-fast);
+  }
+
+  .admin-table tr:hover {
+    background: var(--color-bg-secondary);
+    transform: scale(0.998);
+  }
+
+  .member-info { display: flex; flex-direction: column; gap: 2px; }
+  .member-name { font-weight: var(--fw-semibold); color: var(--color-text-primary); }
+  .member-email { font-size: var(--fs-xxs); color: var(--color-text-tertiary); }
+
+  .status-badge {
+    display: inline-flex;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    font-size: 10px;
+    font-weight: var(--fw-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .status--paid { background: #dcfce7; color: #166534; }
+  .status--debt { background: #fee2e2; color: #991b1b; }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
+  }
+
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-card);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-base);
+  }
+
+  .action-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background: var(--color-accent-muted);
+  }
+
+  /* Modal Base */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s var(--ease-out);
+    perspective: 1000px;
+  }
+
+  .modal.active { opacity: 1; visibility: visible; }
+
+  .modal__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(8px);
+    cursor: zoom-out;
+  }
+
+  .modal__content {
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+    height: auto;
+    max-height: 85vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,255,255,0.1) inset;
+    background: var(--color-bg-secondary);
+    transform: translateY(30px) scale(0.98);
+    transition: all 0.4s var(--ease-spring);
+    border-radius: var(--radius-2xl);
+  }
+
+  .modal.active .modal__content { transform: translateY(0) scale(1); }
+
+  /* New Modal Layout */
+  .modal__header-banner {
+    height: 48px;
+    background: transparent;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .modal__close-btn {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    background: var(--color-bg-secondary);
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    z-index: 10;
+  }
+
+  .modal__close-btn:hover { background: var(--color-bg-tertiary); color: var(--color-text-primary); transform: rotate(90deg); }
+
+  .modal__scroll-area {
+    overflow-y: auto;
+    flex: 1;
+    padding: 0 var(--space-8) var(--space-8);
+    margin-top: 0;
+  }
+
+  .modal__profile-top {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    margin-bottom: var(--space-8);
+    position: relative;
+  }
+
+  .profile-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: var(--radius-xl);
+    background: var(--color-bg-primary);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-accent);
+    font-family: var(--font-display);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+    background-image: linear-gradient(135deg, var(--color-bg-primary) 0%, #fffbf7 100%);
+  }
+
+  .profile-meta {
+    padding-bottom: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    align-items: flex-start;
+  }
+
+  .profile-meta h3 {
+    margin: 0;
+    color: var(--color-text-primary);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 800;
+    letter-spacing: var(--ls-tight);
+    line-height: 1.1;
+  }
+
+  .modal__body {
+    background: transparent;
+  }
+
+  .modal__footer {
+    padding: var(--space-6) var(--space-8);
+    background: var(--color-bg-primary);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: flex-end;
+    flex-shrink: 0;
+  }
+
+  /* Internal Grid Layout */
+  .profile-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: var(--space-10);
+  }
+
+  .section-label {
+    font-size: var(--fs-xxs);
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+    display: block;
+  }
+
+  .section-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: var(--space-4);
+  }
+
+  .quota-count { font-size: 10px; color: var(--color-text-tertiary); font-weight: 500; }
+
+  .profile-section { margin-bottom: var(--space-8); }
+
+  .profile-info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .info-item {
+    background: var(--color-bg-primary);
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .info-item:hover {
+    border-color: var(--color-border-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .info-item__head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: 4px;
+    color: var(--color-text-muted);
+  }
+
+  .info-item__head label { font-size: 10px; text-transform: uppercase; font-weight: 700; }
+  .info-item strong { display: block; font-size: var(--fs-small); color: var(--color-text-primary); word-break: break-all; }
+
+  .observations-box {
+    padding: var(--space-5);
+    background: linear-gradient(135deg, var(--color-accent-muted) 0%, rgba(230, 126, 34, 0.05) 100%);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(230, 126, 34, 0.2);
+    color: var(--color-accent-hover);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .observations-box::before {
+    content: '\201C';
+    position: absolute;
+    top: -10px;
+    right: 14px;
+    font-size: 80px;
+    font-family: serif;
+    color: rgba(230, 126, 34, 0.1);
+    line-height: 1;
+  }
+
+  .observations-box p { font-size: var(--fs-small); line-height: 1.6; margin: 0; position: relative; z-index: 1; }
+
+  /* Quota Timeline Design */
+  .quota-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  @keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .timeline-item {
+    position: relative;
+    padding-left: var(--space-10);
+    opacity: 0;
+    animation: slideUpFade 0.5s var(--ease-out) forwards;
+  }
+
+  .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+  .timeline-item:nth-child(2) { animation-delay: 0.18s; }
+  .timeline-item:nth-child(3) { animation-delay: 0.26s; }
+  .timeline-item:nth-child(4) { animation-delay: 0.34s; }
+  .timeline-item:nth-child(5) { animation-delay: 0.42s; }
+  .timeline-item:nth-child(n+6) { animation-delay: 0.5s; }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 24px;
+    bottom: -24px;
+    width: 2px;
+    background: var(--color-border);
+  }
+
+  .timeline-item:last-child::before { display: none; }
+
+  .timeline-marker {
+    position: absolute;
+    left: -1px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-bg-primary);
+    border: 3px solid var(--color-border);
+    transition: all var(--transition-base);
+    z-index: 2;
+  }
+
+  .timeline-item.is-paid .timeline-marker {
+    border-color: var(--color-accent-2);
+    background: var(--color-bg-primary);
+    box-shadow: inset 0 0 0 3px var(--color-accent-2), 0 0 0 4px var(--color-accent-2-muted);
+  }
+  .timeline-item.is-pending .timeline-marker {
+    border-color: var(--color-accent);
+    background: var(--color-bg-primary);
+    box-shadow: inset 0 0 0 3px var(--color-accent), 0 0 0 4px var(--color-accent-muted);
+  }
+
+  .timeline-content {
+    background: var(--color-bg-primary);
+    padding: var(--space-5) var(--space-6);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+  }
+
+  .timeline-content:hover {
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .quota-info { display: flex; align-items: baseline; gap: var(--space-4); }
+  .quota-year { font-size: 1.25rem; font-weight: 800; color: var(--color-text-primary); }
+  .quota-val { font-size: var(--fs-body); color: var(--color-text-secondary); }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .tag--success { background: var(--color-accent-2-muted); color: var(--color-accent-2); }
+
+  .empty-state {
+    text-align: center;
+    padding: var(--space-12);
+    color: var(--color-text-muted);
+  }
+
+  .empty-state p { margin-top: var(--space-4); font-size: var(--fs-small); }
+
+  /* Copy Button */
+  .copy-btn {
+    margin-left: auto;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    background: rgba(0,0,0,0.03);
+  }
+
+  .copy-btn:hover { background: var(--color-bg-tertiary); color: var(--color-accent); }
+
+  /* Mobile Adjustments */
+  @media (max-width: 850px) {
+    .profile-layout { grid-template-columns: 1fr; gap: var(--space-6); }
+    .modal__content { height: 100vh; max-height: 100vh; border-radius: 0; }
+    .modal__scroll-area { padding: 0 var(--space-5) var(--space-8); }
+    .modal__header-banner { height: 100px; }
+  }
+</style>

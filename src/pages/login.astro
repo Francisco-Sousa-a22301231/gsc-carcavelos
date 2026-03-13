@@ -1,0 +1,159 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Login" description="Acede à tua conta de sócio do Grupo Sportivo de Carcavelos.">
+  <section class="login-page">
+    <div class="container">
+      <div class="login-card reveal">
+        <div class="login-header">
+          <h1 class="text-h2">Iniciar Sessão</h1>
+          <p class="text-secondary">Acede à tua conta de sócio do GSC.</p>
+        </div>
+
+        <form id="login-form" class="login-form">
+          <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" name="email" class="form-input" placeholder="o.teu@email.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" id="password" name="password" class="form-input" placeholder="A tua password" required />
+          </div>
+
+          <div id="login-error" class="login-error" style="display:none;"></div>
+
+          <button type="submit" class="btn btn--primary btn--lg" style="width:100%;">
+            Entrar
+          </button>
+        </form>
+
+        <div class="login-footer">
+          <a href="/recuperar-password" class="login-link">Esqueceste a password?</a>
+          <p class="text-secondary">Ainda não és sócio? <a href="/socios" class="login-link login-link--accent">Inscreve-te aqui</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const form = document.getElementById('login-form') as HTMLFormElement;
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errorEl = document.getElementById('login-error') as HTMLElement;
+      errorEl.style.display = 'none';
+
+      const email = (form.querySelector('#email') as HTMLInputElement).value;
+      const password = (form.querySelector('#password') as HTMLInputElement).value;
+
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          localStorage.setItem('userRole', data.role || 'member');
+          localStorage.setItem('userToken', data.token || '');
+          localStorage.setItem('userName', data.name || '');
+
+          if (data.role === 'admin') {
+            window.location.href = '/admin';
+          } else {
+            window.location.href = '/perfil';
+          }
+        } else {
+          errorEl.textContent = data.message || 'Email ou password incorretos.';
+          errorEl.style.display = 'block';
+        }
+      } catch (err) {
+        errorEl.textContent = 'Erro de ligação. Tente novamente.';
+        errorEl.style.display = 'block';
+      }
+    });
+  });
+</script>
+
+<style>
+  .login-page {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(var(--header-height) + var(--space-16)) 0 var(--space-24);
+  }
+
+  .login-card {
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+    background: var(--color-surface-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-10);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .login-header {
+    text-align: center;
+    margin-bottom: var(--space-8);
+  }
+
+  .login-header h1 {
+    margin-bottom: var(--space-2);
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .login-error {
+    padding: var(--space-3) var(--space-4);
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: var(--radius-md);
+    color: var(--color-danger);
+    font-size: var(--fs-small);
+    text-align: center;
+  }
+
+  .login-footer {
+    margin-top: var(--space-6);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .login-link {
+    font-size: var(--fs-small);
+    color: var(--color-text-tertiary);
+    transition: color var(--transition-fast);
+  }
+
+  .login-link:hover {
+    color: var(--color-text-primary);
+  }
+
+  .login-link--accent {
+    color: var(--color-accent-text);
+    font-weight: var(--fw-semibold);
+  }
+
+  .login-link--accent:hover {
+    color: var(--color-accent);
+  }
+
+  .login-footer p {
+    font-size: var(--fs-small);
+  }
+</style>

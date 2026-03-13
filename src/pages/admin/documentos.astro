@@ -1,0 +1,253 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import AdminNav from '../../components/AdminNav.astro';
+---
+
+<Layout title="Administracao - Documentos" description="Gestao de Documentos Digitais.">
+  <PageHeader
+    badge="Documentos"
+    title="Gestao de"
+    highlight="Documentos"
+    description="Interface para gerir os ficheiros do Repositorio Digital do clube."
+  />
+
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <AdminNav />
+
+      <div class="card reveal" style="padding: var(--space-6); margin-top: var(--space-4);">
+        <div class="admin-header">
+           <h2 class="text-h3" style="margin: 0;">Lista de Documentos</h2>
+           <button class="btn btn--primary btn--sm" onclick="openDocModal()">+ Novo Documento</button>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Titulo</th>
+                <th>Tipo</th>
+                <th>Descricao</th>
+                <th style="text-align: right;">Acoes</th>
+              </tr>
+            </thead>
+            <tbody id="docs-list">
+              <tr><td colspan="4" style="text-align:center; padding: 4rem;">A carregar documentos...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Document Modal -->
+  <div id="doc-modal" class="modal">
+    <div class="modal__overlay" onclick="closeDocModal()"></div>
+    <div class="modal__content card">
+       <div class="modal__header-banner">
+        <button class="modal__close-btn" onclick="closeDocModal()">
+           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal__scroll-area">
+         <h3 id="doc-modal-title" style="margin-bottom: var(--space-4);">Adicionar Documento</h3>
+         <form id="doc-form" onsubmit="saveDoc(event)">
+            <input type="hidden" id="doc-id" />
+
+            <div style="margin-bottom: var(--space-4);">
+                <label style="display: block; font-size: var(--fs-small); margin-bottom: var(--space-2);">Titulo do Ficheiro</label>
+                <input type="text" id="doc-title" class="form-input" required placeholder="Ex: Estatutos do Clube" />
+            </div>
+
+            <div style="margin-bottom: var(--space-4);">
+                <label style="display: block; font-size: var(--fs-small); margin-bottom: var(--space-2);">Tipo</label>
+                <select id="doc-type" class="form-input" required>
+                    <option value="PDF">PDF</option>
+                    <option value="Formulario">Formulario</option>
+                    <option value="Regulamento">Regulamento</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom: var(--space-4);">
+                <label style="display: block; font-size: var(--fs-small); margin-bottom: var(--space-2);">URL</label>
+                <input type="url" id="doc-url" class="form-input" required placeholder="https://" />
+            </div>
+
+            <div style="margin-bottom: var(--space-4);">
+                <label style="display: block; font-size: var(--fs-small); margin-bottom: var(--space-2);">Descricao</label>
+                <input type="text" id="doc-desc" class="form-input" placeholder="Breve descricao do ficheiro..." />
+            </div>
+
+            <div style="margin-bottom: var(--space-6);">
+                <label style="display: block; font-size: var(--fs-small); margin-bottom: var(--space-2);">Icone SVG (Opcional)</label>
+                <textarea id="doc-icon" class="form-input" style="height: 80px;" placeholder="<svg>...</svg>"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn--primary" style="width: 100%;">Guardar Documento</button>
+         </form>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  let ALL_DOCS = [] as any[];
+
+  async function loadDocs() {
+    const role = localStorage.getItem('userRole');
+    if (role !== 'admin') {
+      window.location.href = '/login';
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/admin/documents');
+      const data = await res.json();
+      if (data.success) {
+        ALL_DOCS = data.documents;
+        renderDocs(ALL_DOCS);
+      }
+    } catch {
+       const tbody = document.getElementById('docs-list');
+       if (tbody) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:red;">Erro ao carregar documentos.</td></tr>';
+    }
+  }
+
+  function renderDocs(docs: any[]) {
+    const tbody = document.getElementById('docs-list');
+    if (!tbody) return;
+
+    if (docs.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 4rem;">Nenhum documento registado.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = docs.map(d => `
+        <tr>
+            <td style="font-weight: 600;">${d.title}</td>
+            <td><span class="status-badge status--paid">${d.type}</span></td>
+            <td>${d.desc || '\u2014'}</td>
+            <td style="text-align: right;">
+               <button class="action-btn action-btn--icon-only" onclick="editDoc(${d.id})" title="Editar">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+               </button>
+               <button class="action-btn action-btn--icon-only" onclick="deleteDoc(${d.id})" title="Apagar" style="color: red;">
+                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+               </button>
+            </td>
+        </tr>
+    `).join('');
+  }
+
+  (window as any).openDocModal = () => {
+      document.getElementById('doc-id')!.value = '';
+      (document.getElementById('doc-form') as HTMLFormElement).reset();
+      document.getElementById('doc-modal-title')!.textContent = 'Adicionar Documento';
+      document.getElementById('doc-modal')?.classList.add('active');
+  };
+
+  (window as any).closeDocModal = () => {
+      document.getElementById('doc-modal')?.classList.remove('active');
+  };
+
+  (window as any).editDoc = (id: number) => {
+      const doc = ALL_DOCS.find(d => d.id === id);
+      if (!doc) return;
+
+      document.getElementById('doc-id')!.value = doc.id.toString();
+      document.getElementById('doc-title')!.value = doc.title;
+      document.getElementById('doc-type')!.value = doc.type;
+      document.getElementById('doc-url')!.value = doc.url;
+      document.getElementById('doc-desc')!.value = doc.desc || '';
+      document.getElementById('doc-icon')!.value = doc.icon || '';
+
+      document.getElementById('doc-modal-title')!.textContent = 'Editar Documento';
+      document.getElementById('doc-modal')?.classList.add('active');
+  };
+
+  (window as any).saveDoc = async (e: Event) => {
+      e.preventDefault();
+
+      const payload = {
+          id: document.getElementById('doc-id')?.value || null,
+          title: (document.getElementById('doc-title') as HTMLInputElement).value,
+          type: (document.getElementById('doc-type') as HTMLSelectElement).value,
+          url: (document.getElementById('doc-url') as HTMLInputElement).value,
+          desc: (document.getElementById('doc-desc') as HTMLInputElement).value,
+          icon: (document.getElementById('doc-icon') as HTMLTextAreaElement).value
+      };
+
+      try {
+          const res = await fetch('/api/admin/documents', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+          });
+          const data = await res.json();
+          if (data.success) {
+              (window as any).closeDocModal();
+              loadDocs();
+          } else {
+              alert('Erro: ' + data.message);
+          }
+      } catch {
+          alert('Erro na comunicacao do servidor.');
+      }
+  };
+
+  (window as any).deleteDoc = async (id: number) => {
+      if (!confirm('Eliminar este documento?')) return;
+      try {
+          const res = await fetch('/api/admin/document', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ id })
+          });
+          const data = await res.json();
+          if (data.success) loadDocs();
+          else alert('Erro: ' + data.message);
+      } catch {
+          alert('Erro do servidor ao eliminar.');
+      }
+  };
+
+  loadDocs();
+  document.addEventListener('astro:after-swap', loadDocs);
+</script>
+
+<style is:global>
+  /* Reuse admin and modal styles here */
+  .admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-8);
+  }
+  .table-wrapper { overflow-x: auto; }
+  .admin-table { width: 100%; border-collapse: collapse; font-size: var(--fs-small); }
+  .admin-table th, .admin-table td { padding: var(--space-4); border-bottom: 1px solid var(--color-border); }
+  .admin-table th { text-align: left; font-size: var(--fs-xxs); text-transform: uppercase; color: var(--color-text-muted); }
+  .admin-table tr { transition: all var(--transition-fast); }
+  .admin-table tr:hover { background: var(--color-bg-secondary); }
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    background: transparent;
+    cursor: pointer;
+  }
+  .action-btn:hover { background: var(--color-bg-tertiary); }
+  .status-badge { display: inline-flex; padding: 4px 10px; border-radius: 99px; font-size: 10px; font-weight: bold; }
+  .status--paid { background: #dcfce7; color: #166534; }
+  .modal { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; visibility: hidden; }
+  .modal.active { opacity: 1; visibility: visible; }
+  .modal__overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); }
+  .modal__content { position: relative; width: 100%; max-width: 600px; max-height: 90vh; background: var(--color-bg-primary); padding: 2rem; border-radius: var(--radius-xl); z-index: 1001; overflow-y: auto; }
+  .modal__close-btn { position: absolute; top: 1rem; right: 1rem; cursor: pointer; background: transparent; border: none; }
+  .form-input { width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-bg-secondary); color: var(--color-text-primary); }
+</style>

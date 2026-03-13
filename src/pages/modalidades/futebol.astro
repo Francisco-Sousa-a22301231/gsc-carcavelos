@@ -1,0 +1,128 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { footballGroups, siteConfig } from '../../data/site-content';
+---
+
+<Layout title="Futebol" description="Futebol no Grupo Sportivo de Carcavelos — 8 escalões de formação, do Sub-7 ao Sénior e Veteranos.">
+  <PageHeader
+    badge="Futebol"
+    title="Futebol"
+    highlight="GSC"
+    description="8 escalões de formação e competição no Campo da Quinta Nova."
+  />
+
+  <!-- Info -->
+  <section class="section">
+    <div class="container container--md">
+      <div class="grid grid--2">
+        <div class="card info-block reveal">
+          <div class="info-block__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <h3 class="text-h4">Localização</h3>
+          <p class="text-secondary">Campo da Quinta Nova, Carcavelos</p>
+        </div>
+        <div class="card info-block reveal reveal-delay-1">
+          <div class="info-block__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 class="text-h4">Coordenadores</h3>
+          <p class="text-secondary">Alberto Correia, Luis Fradinho</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Schedule -->
+  <section class="section bg-grid">
+    <div class="container container--md">
+      <div class="section-header reveal">
+        <span class="badge">Horários</span>
+        <h2 class="text-h2">Escalões e <span class="text-gradient">Horários</span></h2>
+        <p>Horários de treino para a época 2025/2026.</p>
+      </div>
+
+      <div class="card reveal" style="overflow:hidden;">
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th>Escalão</th>
+              <th>Idades</th>
+              <th>Horário</th>
+            </tr>
+          </thead>
+          <tbody>
+            {footballGroups.map((group) => (
+              <tr>
+                <td><strong>{group.name}</strong></td>
+                <td>{group.ageRange}</td>
+                <td>{group.schedule}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Documents & Social -->
+  <section class="section">
+    <div class="container container--md">
+      <div class="grid grid--2">
+        <div class="card info-block reveal">
+          <div class="info-block__icon info-block__icon--amber">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <h3 class="text-h4">Documentos</h3>
+          <p class="text-secondary">Os atletas devem apresentar exame de medicina desportiva válido para a inscrição e participação em competições.</p>
+        </div>
+        <div class="card info-block reveal reveal-delay-1">
+          <div class="info-block__icon info-block__icon--blue">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+          </div>
+          <h3 class="text-h4">Redes Sociais</h3>
+          <p class="text-secondary">Segue o futebol do GSC no Instagram para acompanhar os jogos e treinos.</p>
+          <a href={siteConfig.social.instagram} target="_blank" rel="noopener noreferrer" class="btn btn--secondary btn--sm btn--pill" style="align-self:flex-start; margin-top: var(--space-2);">
+            Seguir no Instagram &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .info-block {
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .info-block__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-lg);
+    background: var(--color-accent-muted);
+    color: var(--color-accent-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .info-block__icon--amber {
+    background: var(--color-accent-2-muted);
+    color: var(--color-accent-2);
+  }
+
+  .info-block__icon--blue {
+    background: var(--color-accent-3-muted);
+    color: var(--color-accent-3);
+  }
+
+  .info-block p {
+    font-size: var(--fs-small);
+    line-height: var(--lh-relaxed);
+  }
+</style>

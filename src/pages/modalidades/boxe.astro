@@ -1,0 +1,110 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+---
+
+<Layout title="Boxe Olímpico" description="Boxe Olímpico no Grupo Sportivo de Carcavelos — Disciplina olímpica com tradição no clube.">
+  <PageHeader
+    badge="Boxe Olímpico"
+    title="Boxe"
+    highlight="Olímpico"
+    description="Disciplina olímpica com tradição no Grupo Sportivo de Carcavelos."
+  />
+
+  <!-- About -->
+  <section class="section">
+    <div class="container container--md">
+      <div class="content-block reveal">
+        <p class="text-body-lg">
+          O boxe olímpico é uma disciplina que combina preparação física intensa com técnica apurada. No GSC, o boxe olímpico conta com uma tradição de formação de atletas, promovendo não só a competição mas também a saúde e o bem-estar dos praticantes.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section bg-grid">
+    <div class="container container--md">
+      <div class="grid grid--3">
+        <div class="card step-card reveal">
+          <div class="step-card__header">
+            <div class="step-card__icon step-card__icon--green">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+            </div>
+          </div>
+          <h3 class="text-h4">Preparação Física</h3>
+          <p class="text-secondary">Treino cardiovascular e de força adaptado ao boxe olímpico.</p>
+        </div>
+        <div class="card step-card reveal reveal-delay-1">
+          <div class="step-card__header">
+            <div class="step-card__icon step-card__icon--violet">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+          </div>
+          <h3 class="text-h4">Técnica</h3>
+          <p class="text-secondary">Desenvolvimento técnico com atenção ao posicionamento, defesa e ataque.</p>
+        </div>
+        <div class="card step-card reveal reveal-delay-2">
+          <div class="step-card__header">
+            <div class="step-card__icon step-card__icon--amber">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+          </div>
+          <h3 class="text-h4">Disciplina Olímpica</h3>
+          <p class="text-secondary">Prática regulamentada segundo as normas olímpicas internacionais.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Training Info -->
+  <section class="section">
+    <div class="container container--md">
+      <div class="info-notice reveal">
+        <div class="info-notice__icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        </div>
+        <div>
+          <h3 class="text-h4">Horários de Treino</h3>
+          <p class="text-secondary">Os horários de treino de boxe olímpico serão atualizados em breve. Para mais informações, contacte o clube.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .content-block {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .content-block p {
+    line-height: var(--lh-relaxed);
+  }
+
+  .info-notice {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    background: var(--color-accent-muted);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-border-accent);
+  }
+
+  .info-notice__icon {
+    color: var(--color-accent-text);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .info-notice h3 {
+    margin-bottom: var(--space-2);
+  }
+
+  .info-notice p {
+    font-size: var(--fs-small);
+    line-height: var(--lh-relaxed);
+  }
+</style>

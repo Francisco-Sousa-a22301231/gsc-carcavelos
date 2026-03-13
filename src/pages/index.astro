@@ -1,0 +1,349 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { heroContent, stats, sports, values, socioBenefits, events, siteConfig } from '../data/site-content';
+---
+
+<Layout title="Início" description="Grupo Sportivo de Carcavelos — Clube desportivo fundado em 1922. Futebol, ginástica, karaté, boxe olímpico e halterofilismo.">
+  <!-- JSON-LD Structured Data -->
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "SportsOrganization",
+      "name": "Grupo Sportivo de Carcavelos",
+      "alternateName": "GSC",
+      "foundingDate": "1922",
+      "url": "https://gscarcavelos.org",
+      "logo": "https://gscarcavelos.org/images/logo/gsc-logo.svg",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rua Plácido Abreu, 70",
+        "addressLocality": "Carcavelos",
+        "postalCode": "2775-617",
+        "addressCountry": "PT"
+      },
+      "telephone": "+351214570894",
+      "email": "gscarcavelos@gmail.com",
+      "sport": ["Football", "Gymnastics", "Karate", "Boxing", "Weightlifting"],
+      "sameAs": [
+        siteConfig.social.facebook,
+        siteConfig.social.instagram,
+        siteConfig.social.youtube,
+      ]
+    })} />
+  </Fragment>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero__bg">
+      <div class="hero__gradient"></div>
+      <div class="hero__grid"></div>
+    </div>
+    <div class="container hero__content">
+      <span class="badge reveal">Fundado em 1922</span>
+      <h1 class="text-display reveal reveal-delay-1">
+        {heroContent.title}
+        <span class="text-gradient">{heroContent.highlight}</span>
+      </h1>
+      <p class="hero__desc text-body-lg reveal reveal-delay-2">
+        {heroContent.description}
+      </p>
+      <div class="hero__actions reveal reveal-delay-3">
+        <a href="/socios" class="btn btn--primary btn--lg btn--pill">
+          Torna-te Sócio
+          <span class="btn-arrow">&rarr;</span>
+        </a>
+        <a href="/modalidades" class="btn btn--secondary btn--lg btn--pill">
+          Ver Modalidades
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="section--sm">
+    <div class="container">
+      <div class="stats-grid reveal">
+        {stats.map((stat) => (
+          <div class="stat-item">
+            <span class="stat-value" data-count={stat.value.replace('+', '')} data-suffix={stat.value.includes('+') ? '+' : ''}>{stat.value}</span>
+            <span class="stat-label">{stat.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Modalidades -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="badge">Modalidades</span>
+        <h2 class="text-h2">5 Desportos, Uma <span class="text-gradient">Família</span></h2>
+        <p>Descobre a modalidade ideal para ti. Do futebol à ginástica, do karaté ao halterofilismo.</p>
+      </div>
+      <div class="grid grid--5">
+        {sports.map((sport, i) => (
+          <a href={`/modalidades/${sport.slug}`} class={`card card--interactive sport-card sport-color--${sport.color} reveal reveal-delay-${i + 1}`}>
+            <div class="sport-card__icon" style={`background: var(--sport-accent-muted); color: var(--sport-accent);`}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/></svg>
+            </div>
+            <h3 class="sport-card__title">{sport.name}</h3>
+            <p class="sport-card__desc">{sport.description}</p>
+            <span class="sport-card__link" style={`color: var(--sport-accent);`}>
+              Saber mais &rarr;
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="section bg-grid">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="badge">Os Nossos Valores</span>
+        <h2 class="text-h2">Mais de 100 Anos de <span class="text-gradient">Tradição</span></h2>
+        <p>Desde 1922, o GSC tem sido um pilar do desporto e da comunidade em Carcavelos.</p>
+      </div>
+      <div class="grid grid--3">
+        {values.map((val, i) => (
+          <div class={`card step-card reveal reveal-delay-${i + 1}`}>
+            <div class="step-card__header">
+              <div class={`step-card__icon step-card__icon--${val.color}`}>
+                <Fragment set:html={val.icon} />
+              </div>
+            </div>
+            <h3 class="text-h4">{val.title}</h3>
+            <p class="text-secondary">{val.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits / CTA -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="badge">Sócios</span>
+        <h2 class="text-h2">Faz Parte do <span class="text-gradient">GSC</span></h2>
+        <p>Torna-te sócio e desfruta de todas as vantagens de pertencer ao nosso clube.</p>
+      </div>
+      <div class="grid grid--3">
+        {socioBenefits.map((benefit, i) => (
+          <div class={`card step-card reveal reveal-delay-${(i % 3) + 1}`}>
+            <div class="step-card__header">
+              <div class={`step-card__icon step-card__icon--${benefit.color}`}>
+                <Fragment set:html={benefit.icon} />
+              </div>
+            </div>
+            <h3 class="text-h4">{benefit.title}</h3>
+            <p class="text-secondary">{benefit.desc}</p>
+          </div>
+        ))}
+      </div>
+      <div class="cta-center reveal">
+        <a href="/socios" class="btn btn--primary btn--lg btn--pill">
+          Inscreve-te Agora
+          <span class="btn-arrow">&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Events Preview -->
+  <section class="section bg-dots">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="badge">Eventos</span>
+        <h2 class="text-h2">Próximos <span class="text-gradient">Eventos</span></h2>
+        <p>Acompanha o calendário de atividades e eventos do GSC.</p>
+      </div>
+      <div class="steps-grid">
+        {events.map((event, i) => (
+          <div class={`card step-card reveal reveal-delay-${(i % 2) + 1}`}>
+            <div class="step-card__header">
+              <div class={`step-card__icon step-card__icon--${event.color}`}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              </div>
+              <span class="step-card__date">{event.date}</span>
+            </div>
+            <h3 class="text-h4">{event.title}</h3>
+            <p class="text-secondary">{event.desc}</p>
+            <span class="badge--subtle badge" style="align-self: flex-start;">{event.tag}</span>
+          </div>
+        ))}
+      </div>
+      <div class="cta-center reveal">
+        <a href="/eventos" class="btn btn--secondary btn--lg btn--pill">
+          Ver Todos os Eventos
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Hero */
+  .hero {
+    position: relative;
+    padding-top: calc(var(--header-height) + var(--space-24));
+    padding-bottom: var(--space-24);
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .hero__gradient {
+    position: absolute;
+    top: -30%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1000px;
+    height: 600px;
+    background: radial-gradient(
+      ellipse at center,
+      var(--color-accent-glow) 0%,
+      var(--color-accent-2-glow) 30%,
+      transparent 60%
+    );
+    opacity: 0.8;
+  }
+
+  .hero__grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 70% 70% at center, black 20%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 70% at center, black 20%, transparent 70%);
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .hero__desc {
+    max-width: 560px;
+  }
+
+  .hero__actions {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Stats */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-6);
+    padding: var(--space-10) var(--space-8);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-2xl);
+    border: 1px solid var(--color-border);
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  .stat-value {
+    font-family: var(--font-display);
+    font-size: var(--fs-h1);
+    font-weight: var(--fw-extrabold);
+    color: var(--color-accent-text);
+    letter-spacing: var(--ls-tight);
+  }
+
+  .stat-label {
+    font-size: var(--fs-small);
+    color: var(--color-text-tertiary);
+    font-weight: var(--fw-medium);
+  }
+
+  /* Sport Cards */
+  .sport-card {
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    text-decoration: none;
+  }
+
+  .sport-card__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sport-card__title {
+    font-family: var(--font-display);
+    font-size: var(--fs-h4);
+    font-weight: var(--fw-bold);
+    color: var(--color-text-primary);
+  }
+
+  .sport-card__desc {
+    font-size: var(--fs-small);
+    color: var(--color-text-secondary);
+    line-height: var(--lh-relaxed);
+    flex: 1;
+  }
+
+  .sport-card__link {
+    font-size: var(--fs-small);
+    font-weight: var(--fw-semibold);
+    transition: transform var(--transition-fast);
+  }
+
+  .sport-card:hover .sport-card__link {
+    transform: translateX(4px);
+  }
+
+  /* CTA Center */
+  .cta-center {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-12);
+  }
+
+  @media (max-width: 1024px) {
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .stats-grid {
+      grid-template-columns: 1fr 1fr;
+      padding: var(--space-6);
+    }
+
+    .hero {
+      padding-top: calc(var(--header-height) + var(--space-16));
+      padding-bottom: var(--space-16);
+    }
+  }
+</style>

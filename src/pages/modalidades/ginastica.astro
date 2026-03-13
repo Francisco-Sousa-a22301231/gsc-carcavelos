@@ -1,0 +1,138 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { gymnasticsPrograms, siteConfig } from '../../data/site-content';
+---
+
+<Layout title="Ginástica" description="Ginástica no Grupo Sportivo de Carcavelos — Formativa, Acrobática e Trampolins.">
+  <PageHeader
+    badge="Ginástica"
+    title="Ginástica"
+    highlight="GSC"
+    description="Ginástica Formativa, Acrobática e Trampolins na Escola Secundária de Carcavelos."
+  />
+
+  <!-- Programs -->
+  <section class="section">
+    <div class="container container--md">
+      <div class="section-header reveal">
+        <span class="badge">Programas</span>
+        <h2 class="text-h2">Os Nossos <span class="text-gradient">Programas</span></h2>
+      </div>
+
+      <div class="grid grid--3">
+        {gymnasticsPrograms.map((program, i) => (
+          <div class={`card step-card reveal reveal-delay-${i + 1}`}>
+            <div class="step-card__header">
+              <div class="step-card__icon step-card__icon--violet">
+                <Fragment set:html={program.icon} />
+              </div>
+            </div>
+            <h3 class="text-h4">{program.name}</h3>
+            <p class="text-secondary">{program.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Location -->
+  <section class="section bg-grid">
+    <div class="container container--md">
+      <div class="grid grid--2">
+        <div class="card info-block reveal">
+          <div class="info-block__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <h3 class="text-h4">Localização</h3>
+          <p class="text-secondary">Escola Secundária de Carcavelos</p>
+        </div>
+        <div class="card info-block reveal reveal-delay-1">
+          <div class="info-block__icon info-block__icon--blue">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </div>
+          <h3 class="text-h4">Facebook</h3>
+          <p class="text-secondary">Acompanha a ginástica do GSC no Facebook.</p>
+          <a href={siteConfig.social.facebook} target="_blank" rel="noopener noreferrer" class="btn btn--secondary btn--sm btn--pill" style="align-self:flex-start; margin-top: var(--space-2);">
+            Seguir no Facebook &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Documents -->
+  <section class="section">
+    <div class="container container--md">
+      <div class="section-header reveal">
+        <span class="badge">Documentos</span>
+        <h2 class="text-h2">Documentos <span class="text-gradient">Disponíveis</span></h2>
+        <p>Documentos necessários para a inscrição e participação na ginástica.</p>
+      </div>
+
+      <div class="docs-list reveal">
+        {['Ficha de inscrição', 'Autorização do encarregado de educação', 'Exame médico desportivo', 'Regulamento interno da secção', 'Calendário de competições', 'Tabela de preços', 'Seguro desportivo'].map((doc, i) => (
+          <div class={`doc-item reveal reveal-delay-${(i % 3) + 1}`}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <span>{doc}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .info-block {
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .info-block__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-lg);
+    background: var(--color-accent-muted);
+    color: var(--color-accent-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .info-block__icon--blue {
+    background: rgba(24, 119, 242, 0.12);
+    color: #1877F2;
+  }
+
+  .info-block p {
+    font-size: var(--fs-small);
+    line-height: var(--lh-relaxed);
+  }
+
+  .docs-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .doc-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-surface-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--fs-small);
+    color: var(--color-text-secondary);
+  }
+
+  .doc-item svg {
+    color: var(--color-accent-text);
+    flex-shrink: 0;
+  }
+</style>

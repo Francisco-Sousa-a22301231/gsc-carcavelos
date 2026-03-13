@@ -1,0 +1,90 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { sports } from '../../data/site-content';
+---
+
+<Layout title="Modalidades" description="As 5 modalidades desportivas do Grupo Sportivo de Carcavelos: futebol, ginástica, karaté, boxe olímpico e halterofilismo.">
+  <PageHeader
+    badge="Modalidades"
+    title="As Nossas"
+    highlight="Modalidades"
+    description="5 modalidades desportivas para todas as idades e níveis."
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--3">
+        {sports.map((sport, i) => (
+          <a href={`/modalidades/${sport.slug}`} class={`card card--interactive sport-card sport-color--${sport.color} reveal reveal-delay-${(i % 3) + 1}`}>
+            <div class="sport-card__icon" style={`background: var(--sport-accent-muted); color: var(--sport-accent);`}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/></svg>
+            </div>
+            <h3 class="sport-card__title">{sport.name}</h3>
+            <p class="sport-card__desc">{sport.description}</p>
+            {sport.location && (
+              <span class="sport-card__location">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                {sport.location}
+              </span>
+            )}
+            <span class="sport-card__link" style={`color: var(--sport-accent);`}>
+              Ver mais &rarr;
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .sport-card {
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    text-decoration: none;
+  }
+
+  .sport-card__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sport-card__title {
+    font-family: var(--font-display);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-bold);
+    color: var(--color-text-primary);
+  }
+
+  .sport-card__desc {
+    font-size: var(--fs-small);
+    color: var(--color-text-secondary);
+    line-height: var(--lh-relaxed);
+    flex: 1;
+  }
+
+  .sport-card__location {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--fs-xs);
+    color: var(--color-text-tertiary);
+  }
+
+  .sport-card__link {
+    font-size: var(--fs-small);
+    font-weight: var(--fw-semibold);
+    transition: transform var(--transition-fast);
+  }
+
+  .sport-card:hover .sport-card__link {
+    transform: translateX(4px);
+  }
+</style>

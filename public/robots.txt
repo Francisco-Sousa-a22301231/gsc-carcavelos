@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gscarcavelos.org/sitemap-index.xml

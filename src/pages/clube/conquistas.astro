@@ -1,0 +1,144 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+---
+
+<Layout title="Conquistas" description="Palmarés e conquistas do Grupo Sportivo de Carcavelos ao longo da sua história.">
+  <PageHeader
+    badge="Conquistas"
+    title="Palmarés do"
+    highlight="GSC"
+    description="Um percurso de mais de 100 anos de conquistas desportivas."
+  />
+
+  <!-- Athletics -->
+  <section class="section">
+    <div class="container container--md">
+      <div class="sport-section reveal">
+        <div class="sport-section__header">
+          <span class="badge">Atletismo</span>
+          <h2 class="text-h3">Atletismo <span class="text-gradient">(1926–1962)</span></h2>
+        </div>
+        <div class="timeline">
+          <div class="timeline__item">
+            <div class="timeline__dot"></div>
+            <div class="timeline__year">1926</div>
+            <div class="timeline__content">Início da prática de atletismo no clube, uma das primeiras modalidades do GSC.</div>
+          </div>
+          <div class="timeline__item">
+            <div class="timeline__dot"></div>
+            <div class="timeline__year">1927</div>
+            <div class="timeline__content">António Augusto Carvalho vence a primeira Volta a Portugal em bicicleta, representando o GSC.</div>
+          </div>
+          <div class="timeline__item">
+            <div class="timeline__dot"></div>
+            <div class="timeline__year">1930–1962</div>
+            <div class="timeline__content">Participação regular em provas regionais e nacionais de atletismo.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sport-section reveal">
+        <div class="sport-section__header">
+          <span class="badge">Ginástica</span>
+          <h2 class="text-h3">Ginástica <span class="text-gradient">(1990–1995)</span></h2>
+        </div>
+        <div class="timeline">
+          <div class="timeline__item">
+            <div class="timeline__dot"></div>
+            <div class="timeline__year">1990</div>
+            <div class="timeline__content">Início da secção de ginástica no GSC com programas de formação.</div>
+          </div>
+          <div class="timeline__item">
+            <div class="timeline__dot"></div>
+            <div class="timeline__year">1990–1995</div>
+            <div class="timeline__content">Participação em competições distritais e nacionais de ginástica formativa e acrobática.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sport-section reveal">
+        <div class="sport-section__header">
+          <span class="badge">Halterofilismo</span>
+          <h2 class="text-h3">Halterofilismo <span class="text-gradient">(1970–1980)</span></h2>
+        </div>
+        <div class="timeline">
+          <div class="timeline__item">
+            <div class="timeline__dot"></div>
+            <div class="timeline__year">1970–1980</div>
+            <div class="timeline__content">Década de ouro do halterofilismo no GSC, com destaque para o atleta Raúl Diniz.</div>
+          </div>
+          <div class="timeline__item">
+            <div class="timeline__dot"></div>
+            <div class="timeline__year">Raúl Diniz</div>
+            <div class="timeline__content">Campeão nacional de halterofilismo, com participações em Campeonatos Europeus e Mundiais como representante do GSC e de Portugal.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sport-section reveal">
+        <div class="sport-section__header">
+          <span class="badge">Taekwondo</span>
+          <h2 class="text-h3">Taekwondo <span class="text-gradient">(2010)</span></h2>
+        </div>
+        <div class="timeline">
+          <div class="timeline__item">
+            <div class="timeline__dot"></div>
+            <div class="timeline__year">2010</div>
+            <div class="timeline__content">Participação e conquistas em competições de taekwondo a nível regional.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sport-section reveal">
+        <div class="sport-section__header">
+          <span class="badge">Futebol</span>
+          <h2 class="text-h3">Futebol <span class="text-gradient">(1926–2011)</span></h2>
+        </div>
+        <div class="timeline">
+          <div class="timeline__item">
+            <div class="timeline__dot"></div>
+            <div class="timeline__year">1926</div>
+            <div class="timeline__content">Início da secção de futebol do GSC.</div>
+          </div>
+          <div class="timeline__item">
+            <div class="timeline__dot"></div>
+            <div class="timeline__year">Décadas 60–80</div>
+            <div class="timeline__content">Conquistas em campeonatos distritais e torneios regionais em diversas categorias de formação.</div>
+          </div>
+          <div class="timeline__item">
+            <div class="timeline__dot"></div>
+            <div class="timeline__year">1990–2011</div>
+            <div class="timeline__content">Títulos em escalões de formação (benjamins, infantis, iniciados, juvenis). Participação regular nos campeonatos da Associação de Futebol de Lisboa.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .sport-section {
+    margin-bottom: var(--space-16);
+    padding-bottom: var(--space-16);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .sport-section:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .sport-section__header {
+    margin-bottom: var(--space-8);
+  }
+
+  .sport-section__header .badge {
+    margin-bottom: var(--space-3);
+  }
+
+  .sport-section__header h2 {
+    margin-top: var(--space-2);
+  }
+</style>

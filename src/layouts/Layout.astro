@@ -1,0 +1,289 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import ImageLoader from '../components/ImageLoader.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Grupo Sportivo de Carcavelos — Clube desportivo fundado em 1922. Futebol, ginástica, karaté, boxe olímpico e halterofilismo.' } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const fullTitle = title ? `${title} — GSC Carcavelos` : 'Grupo Sportivo de Carcavelos';
+---
+
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#16A34A" />
+    <meta name="keywords" content="grupo sportivo carcavelos, GSC, futebol carcavelos, ginástica carcavelos, karaté, boxe olímpico, halterofilismo, clube desportivo, cascais" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:locale" content="pt_PT" />
+    <meta property="og:image" content={new URL('/images/hero/campo-quinta-nova.jpg', Astro.site)} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL('/images/hero/campo-quinta-nova.jpg', Astro.site)} />
+
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{fullTitle}</title>
+    <ViewTransitions />
+    <script is:inline>
+      (function() {
+        const applySiteColors = () => {
+          try {
+            const fetchAndApply = (saved) => {
+              const colors = saved ? JSON.parse(saved) : null;
+              if (!colors) return;
+              const root = document.documentElement;
+              const hexToRgb = (hex) => {
+                 hex = hex.replace('#', '');
+                 if (hex.length === 3) hex = hex.split('').map(c => c+c).join('');
+                 return `${parseInt(hex.slice(0,2),16)}, ${parseInt(hex.slice(2,4),16)}, ${parseInt(hex.slice(4,6),16)}`;
+              };
+              for (const [key, val] of Object.entries(colors)) {
+                 if (key.includes('accent')) {
+                    const rgb = hexToRgb(val);
+                    root.style.setProperty(`--color-${key}`, val);
+                    root.style.setProperty(`--color-${key}-hover`, val);
+                    root.style.setProperty(`--color-${key}-text`, val);
+                    root.style.setProperty(`--color-${key}-muted`, `rgba(${rgb}, 0.15)`);
+                    root.style.setProperty(`--color-${key}-glow`, `rgba(${rgb}, 0.2)`);
+                 } else {
+                    root.style.setProperty(`--color-${key}`, val);
+                 }
+              }
+            };
+
+            const savedColors = localStorage.getItem('site_colors');
+            if (savedColors) fetchAndApply(savedColors);
+
+            fetch('/api/colors').then(r => r.json()).then(data => {
+              if (data.success && data.colors && Object.keys(data.colors).length > 0) {
+                const colorsStr = JSON.stringify(data.colors);
+                if (colorsStr !== savedColors) {
+                   localStorage.setItem('site_colors', colorsStr);
+                   fetchAndApply(colorsStr);
+                }
+              }
+            }).catch(()=>{});
+          } catch(e) {}
+        };
+
+        applySiteColors();
+        document.addEventListener('astro:after-swap', applySiteColors);
+      })();
+    </script>
+    <slot name="head" />
+  </head>
+  <body>
+    <Navigation />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer />
+    <ImageLoader />
+
+    <!-- Smooth Scroll Reveal -->
+    <script>
+      function initReveals() {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+              }
+            });
+          },
+          { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+        );
+        document.querySelectorAll('.reveal, .reveal-scale').forEach((el) => {
+          el.classList.remove('visible');
+          observer.observe(el);
+        });
+      }
+
+      // Smooth counter animation
+      function animateCounters() {
+        document.querySelectorAll('[data-count]').forEach((el) => {
+          const htmlEl = el as HTMLElement;
+          const target = htmlEl.dataset.count;
+          if (!target) return;
+          const isNumber = /^\d+$/.test(target);
+          if (isNumber) {
+            const num = parseInt(target);
+            let current = 0;
+            const increment = num / 40;
+            const timer = setInterval(() => {
+              current += increment;
+              if (current >= num) {
+                htmlEl.textContent = target + (htmlEl.dataset.suffix || '');
+                clearInterval(timer);
+              } else {
+                htmlEl.textContent = Math.floor(current) + (htmlEl.dataset.suffix || '');
+              }
+            }, 30);
+          } else {
+            htmlEl.textContent = target;
+          }
+        });
+      }
+
+      initReveals();
+      document.addEventListener('astro:after-swap', () => {
+        initReveals();
+        animateCounters();
+      });
+    </script>
+    <!-- Strings Editor Logic -->
+    <script>
+      let dictionaryCache: Record<string, string> | null = null;
+
+      async function initStringsEditor() {
+        if (!dictionaryCache) {
+          try {
+            const res = await fetch('/api/dictionary');
+            const data = await res.json();
+            if (data.success && data.dictionary) {
+              dictionaryCache = data.dictionary;
+            } else {
+                dictionaryCache = {};
+            }
+          } catch (e) { dictionaryCache = {}; }
+        }
+
+        const dict = dictionaryCache || {};
+        const excludeTags = ['SCRIPT', 'STYLE', 'NOSCRIPT', 'SVG', 'PATH', 'IFRAME', 'CODE', 'PRE'];
+        const textNodes: Text[] = [];
+
+        function walkDOM(node: Node) {
+          if (node.nodeType === Node.TEXT_NODE) {
+            const text = node.nodeValue?.trim();
+            if (text && text.length > 1) {
+                textNodes.push(node as Text);
+            }
+          } else if (node.nodeType === Node.ELEMENT_NODE) {
+            if (!excludeTags.includes((node as Element).tagName)) {
+              for (const child of node.childNodes) walkDOM(child);
+            }
+          }
+        }
+
+        const targetAreas = [document.querySelector('main'), document.querySelector('footer')].filter(Boolean) as Element[];
+        targetAreas.forEach(area => walkDOM(area));
+
+        textNodes.forEach(node => {
+          const originalText = node.nodeValue!.trim();
+          const key = `dict:${originalText}`;
+
+          if (dict[key] && dict[key] !== originalText) {
+            node.nodeValue = node.nodeValue!.replace(originalText, dict[key]);
+          }
+
+          if (node.parentNode && node.parentNode.nodeType === Node.ELEMENT_NODE && !excludeTags.includes((node.parentNode as Element).tagName)) {
+            if (!(node.parentNode as Element).hasAttribute('data-original-key')) {
+               (node.parentNode as Element).setAttribute('data-original-key', key);
+            }
+          }
+        });
+
+        const role = localStorage.getItem('userRole');
+        if (role === 'admin' && !document.getElementById('edit-strings-btn')) {
+          const btn = document.createElement('button');
+          btn.id = 'edit-strings-btn';
+          btn.innerHTML = '<span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Editor Textos</span>';
+          btn.className = 'btn btn--primary';
+          btn.style.position = 'fixed';
+          btn.style.bottom = '24px';
+          btn.style.right = '24px';
+          btn.style.zIndex = '9999';
+          btn.style.boxShadow = 'var(--shadow-lg)';
+          btn.style.borderRadius = 'var(--radius-full)';
+          btn.style.padding = '12px 24px';
+
+          let editMode = false;
+          btn.onclick = () => {
+            editMode = !editMode;
+            btn.innerHTML = editMode ? 'Terminar Edição' : '<span style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Editor Textos</span>';
+
+            if (editMode) {
+              btn.style.background = 'var(--color-accent-2)';
+              document.querySelectorAll('[data-original-key]').forEach(el => {
+                 (el as HTMLElement).setAttribute('contenteditable', 'true');
+                 (el as HTMLElement).style.outline = '2px dashed var(--color-accent)';
+                 (el as HTMLElement).style.outlineOffset = '2px';
+                 (el as HTMLElement).style.borderRadius = '2px';
+                 (el as HTMLElement).style.transition = 'all 0.2s';
+                 el.addEventListener('blur', handleBlur);
+                 if(el.tagName === 'A') {
+                    (el as HTMLElement).dataset.href = el.getAttribute('href') || '';
+                    el.removeAttribute('href');
+                 }
+              });
+            } else {
+              btn.style.background = '';
+              document.querySelectorAll('[data-original-key]').forEach(el => {
+                 el.removeAttribute('contenteditable');
+                 (el as HTMLElement).style.outline = '';
+                 el.removeEventListener('blur', handleBlur);
+                 if(el.tagName === 'A' && (el as HTMLElement).dataset.href) {
+                    el.setAttribute('href', (el as HTMLElement).dataset.href!);
+                 }
+              });
+            }
+          };
+
+          async function handleBlur(e: Event) {
+             const el = e.target as HTMLElement;
+             const key = el.getAttribute('data-original-key');
+             let newText = el.innerText.trim();
+
+             if (key && newText) {
+                 el.style.opacity = '0.5';
+                 try {
+                     const res = await fetch('/api/dictionary', {
+                         method: 'POST',
+                         headers: { 'Content-Type': 'application/json' },
+                         body: JSON.stringify({ key, value: newText })
+                     });
+                     if (res.ok) {
+                         el.style.outlineColor = '#10b981';
+                         dictionaryCache![key] = newText;
+                     } else {
+                         el.style.outlineColor = '#ef4444';
+                     }
+                 } catch (err) {
+                     el.style.outlineColor = '#ef4444';
+                 }
+                 el.style.opacity = '1';
+                 setTimeout(() => { if(el.getAttribute('contenteditable')) el.style.outlineColor = 'var(--color-accent)'; }, 2000);
+             }
+          }
+
+          document.body.appendChild(btn);
+        }
+      }
+
+      document.addEventListener('astro:page-load', initStringsEditor);
+      if (document.readyState === 'complete') {
+        initStringsEditor();
+      } else {
+        window.addEventListener('load', initStringsEditor);
+      }
+    </script>
+  </body>
+</html>

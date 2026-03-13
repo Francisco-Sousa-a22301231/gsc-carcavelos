@@ -1,0 +1,31 @@
+<!--
+  ImageLoader: Dynamically loads site images from /api/images and replaces
+  any <img> or element with data-site-image="image:key" attribute.
+-->
+<script>
+  async function loadSiteImages() {
+    try {
+      const res = await fetch('/api/images');
+      const data = await res.json();
+      if (!data.success || !data.images) return;
+
+      const images = data.images;
+
+      document.querySelectorAll('[data-site-image]').forEach((el: any) => {
+        const key = el.dataset.siteImage;
+        if (images[key]) {
+          if (el.tagName === 'IMG') {
+            el.src = images[key];
+          } else {
+            el.style.backgroundImage = `url(${images[key]})`;
+          }
+        }
+      });
+    } catch (e) {
+      // Silently fail — images will show defaults from HTML
+    }
+  }
+
+  loadSiteImages();
+  document.addEventListener('astro:after-swap', loadSiteImages);
+</script>

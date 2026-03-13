@@ -1,0 +1,306 @@
+---
+const navSections = [
+  {
+    title: 'O Clube',
+    links: [
+      { label: 'História', href: '/clube/historia' },
+      { label: 'Conquistas', href: '/clube/conquistas' },
+      { label: 'Órgãos Sociais', href: '/clube/orgaos-sociais' },
+      { label: 'Regulamentos', href: '/clube/regulamentos' },
+    ],
+  },
+  {
+    title: 'Modalidades',
+    links: [
+      { label: 'Futebol', href: '/modalidades/futebol' },
+      { label: 'Ginástica', href: '/modalidades/ginastica' },
+      { label: 'Karaté', href: '/modalidades/karate' },
+      { label: 'Boxe Olímpico', href: '/modalidades/boxe' },
+      { label: 'Halterofilismo', href: '/modalidades/halterofilismo' },
+    ],
+  },
+  {
+    title: 'Associação',
+    links: [
+      { label: 'Sócios', href: '/socios' },
+      { label: 'Eventos', href: '/eventos' },
+      { label: 'Documentos', href: '/repositorio-digital' },
+      { label: 'Contactos', href: '/contactos' },
+    ],
+  },
+];
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer__top-border"></div>
+  <div class="container">
+    <!-- Main Grid -->
+    <div class="footer__grid">
+      <!-- Brand -->
+      <div class="footer__brand">
+        <a href="/" class="footer__logo">
+          <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="7" fill="url(#footer-logo-gradient)"/>
+            <text x="14" y="19" text-anchor="middle" font-size="13" font-weight="800" fill="#ffffff" font-family="system-ui">G</text>
+            <defs>
+              <linearGradient id="footer-logo-gradient" x1="0" y1="0" x2="28" y2="28">
+                <stop stop-color="#16A34A"/>
+                <stop offset="1" stop-color="#15803D"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span>GS Carcavelos</span>
+        </a>
+        <p class="footer__desc">
+          Clube desportivo fundado em 1922. Mais de 100 anos de tradição desportiva e comunitária em Carcavelos.
+        </p>
+        <div class="footer__socials">
+          <a href="https://facebook.com/GSCarcavelos" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="footer__social">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://instagram.com/gs_carcavelos" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="footer__social">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="https://youtube.com/channel/UCnz-mEE0hbXLL6RPzxDrFlg" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="footer__social">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Nav Columns -->
+      {navSections.map((section) => (
+        <div class="footer__column">
+          <h4 class="footer__heading">{section.title}</h4>
+          <ul class="footer__list">
+            {section.links.map((link) => (
+              <li><a href={link.href}>{link.label}</a></li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <!-- Contact Info -->
+    <div class="footer__contact">
+      <div class="footer__contact-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Rua Plácido Abreu, 70 – 2775-617 Carcavelos</span>
+      </div>
+      <div class="footer__contact-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <a href="tel:+351214570894">+351 214 570 894</a>
+      </div>
+      <div class="footer__contact-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <a href="mailto:gscarcavelos@gmail.com">gscarcavelos@gmail.com</a>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer__bottom">
+      <p>&copy; {currentYear} Grupo Sportivo de Carcavelos. Fundado em 1922.</p>
+      <div class="footer__bottom-links">
+        <a href="/repositorio-digital">Documentos</a>
+        <span class="footer__dot"></span>
+        <a href="/contactos">Contacto</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    background: var(--color-bg-secondary);
+    padding: var(--space-16) 0 var(--space-8);
+  }
+
+  .footer__top-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--color-border) 20%,
+      rgba(22, 163, 74, 0.15) 50%,
+      var(--color-border) 80%,
+      transparent 100%
+    );
+  }
+
+  .footer__grid {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr 1fr 1fr;
+    gap: var(--space-12);
+    padding-bottom: var(--space-12);
+  }
+
+  /* Brand */
+  .footer__logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .footer__logo span {
+    font-family: var(--font-display);
+    font-weight: var(--fw-bold);
+    font-size: var(--fs-small);
+    color: var(--color-text-primary);
+  }
+
+  .footer__desc {
+    color: var(--color-text-tertiary);
+    font-size: var(--fs-small);
+    line-height: var(--lh-relaxed);
+    max-width: 280px;
+    margin-bottom: var(--space-6);
+  }
+
+  .footer__socials {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .footer__social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-tertiary);
+    transition: all var(--transition-base);
+  }
+
+  .footer__social:hover {
+    color: var(--color-text-primary);
+    border-color: var(--color-border-hover);
+    background: rgba(255,255,255,0.03);
+  }
+
+  /* Columns */
+  .footer__heading {
+    font-family: var(--font-display);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-wider);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .footer__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .footer__list a,
+  .footer__list span {
+    font-size: var(--fs-small);
+    color: var(--color-text-tertiary);
+    transition: color var(--transition-fast);
+  }
+
+  .footer__list a:hover {
+    color: var(--color-text-primary);
+  }
+
+  /* Contact */
+  .footer__contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+    padding: var(--space-6) 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .footer__contact-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--fs-small);
+    color: var(--color-text-tertiary);
+  }
+
+  .footer__contact-item a {
+    color: var(--color-text-tertiary);
+  }
+
+  .footer__contact-item a:hover {
+    color: var(--color-accent-text);
+  }
+
+  .footer__contact-item svg {
+    flex-shrink: 0;
+    color: var(--color-accent-text);
+  }
+
+  /* Bottom */
+  .footer__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: var(--space-8);
+  }
+
+  .footer__bottom p {
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+  }
+
+  .footer__bottom-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .footer__bottom-links a {
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast);
+  }
+
+  .footer__bottom-links a:hover {
+    color: var(--color-text-primary);
+  }
+
+  .footer__dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--color-text-muted);
+  }
+
+  @media (max-width: 900px) {
+    .footer__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .footer__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+    .footer__contact {
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    .footer__bottom {
+      flex-direction: column;
+      gap: var(--space-4);
+      text-align: center;
+    }
+  }
+</style>
