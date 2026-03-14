@@ -1,16 +1,23 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import PageHeader from '../components/PageHeader.astro';
 import { siteConfig } from '../data/site-content';
 ---
 
 <Layout title="Contactos" description="Entre em contacto com o Grupo Sportivo de Carcavelos. Morada, telefone, email e formulário de contacto.">
-  <PageHeader
-    badge="Contacto"
-    title="Fale"
-    highlight="Connosco"
-    description="Tem alguma questão ou sugestão? Entre em contacto connosco."
-  />
+  <!-- Hero with Image -->
+  <section class="contacto-hero">
+    <div class="contacto-hero__bg">
+      <img src="/images/club/stadium.jpg" alt="Campo do GSC" loading="eager" />
+      <div class="contacto-hero__overlay"></div>
+    </div>
+    <div class="container contacto-hero__content">
+      <span class="badge badge--hero reveal">Contacto</span>
+      <h1 class="text-h1 reveal reveal-delay-1">
+        Fale <span class="contacto-hero__highlight">Connosco</span>
+      </h1>
+      <p class="contacto-hero__desc reveal reveal-delay-2">Tem alguma questão ou sugestão? Entre em contacto connosco.</p>
+    </div>
+  </section>
 
   <section class="section">
     <div class="container">
@@ -120,6 +127,63 @@ import { siteConfig } from '../data/site-content';
 </script>
 
 <style>
+  .contacto-hero {
+    position: relative;
+    padding-top: calc(var(--header-height) + var(--space-24));
+    padding-bottom: var(--space-32);
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .contacto-hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .contacto-hero__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .contacto-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.75) 100%);
+  }
+
+  .contacto-hero__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .contacto-hero__content .text-h1 { color: #ffffff; }
+
+  .contacto-hero__highlight {
+    background: linear-gradient(135deg, #4ade80 0%, #facc15 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .contacto-hero__desc {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: var(--fs-body-lg);
+    max-width: 560px;
+  }
+
+  .badge--hero {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+  }
+
   .contact-grid {
     display: grid;
     grid-template-columns: 1fr 380px;
