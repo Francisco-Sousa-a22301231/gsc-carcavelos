@@ -659,6 +659,9 @@ select {
   border-radius: var(--radius-md);
   color: var(--color-text-primary);
   font-size: var(--fs-small);
+  min-height: 48px; /* Touch-friendly */
+  -webkit-appearance: none; /* Remove iOS default styling */
+  appearance: none;
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
@@ -686,9 +689,68 @@ select {
   }
 }
 
+@media (max-width: 390px) {
+  .container {
+    padding: 0 var(--space-3);
+  }
+}
+
 @media (min-width: 769px) {
   .hide-desktop {
     display: none !important;
+  }
+}
+
+/* --- Touch Interaction Improvements --- */
+@media (hover: none) and (pointer: coarse) {
+  /* Disable hover transforms on touch devices — they get stuck */
+  .card:hover {
+    transform: none;
+    box-shadow: var(--shadow-card);
+  }
+
+  .btn--primary:hover,
+  .btn--secondary:hover {
+    transform: none;
+  }
+
+  /* Larger touch targets for links and buttons */
+  .nav__dropdown-item {
+    padding: var(--space-3) var(--space-3);
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* Active states for touch (replaces hover) */
+@media (hover: none) {
+  .card:active {
+    transform: scale(0.98);
+    transition: transform 100ms ease;
+  }
+
+  .btn:active {
+    transform: scale(0.97);
+    transition: transform 100ms ease;
+  }
+}
+
+/* --- Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal,
+  .reveal-scale {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 

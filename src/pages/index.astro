@@ -1041,40 +1041,93 @@ import { heroContent, stats, sports, values, socioBenefits, events, siteConfig }
   @media (max-width: 640px) {
     .stats-grid {
       grid-template-columns: 1fr 1fr;
-      padding: var(--space-6);
+      padding: var(--space-6) var(--space-4);
+      gap: var(--space-4);
+    }
+
+    .stat-value {
+      font-size: clamp(1.75rem, 7vw, 2.25rem);
     }
 
     .hero__content {
-      padding: var(--space-16) 0;
+      padding: var(--space-12) 0 var(--space-10);
+      gap: var(--space-5);
+    }
+
+    .hero__actions {
+      flex-direction: column;
+      width: 100%;
+      gap: var(--space-3);
+    }
+
+    .hero__actions .btn {
+      width: 100%;
+      justify-content: center;
     }
 
     .hero__social-proof {
       display: none;
     }
 
+    /* Gallery: 2 columns on mobile (more visual interest than 1 column) */
     .gallery-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
       grid-template-rows: none;
+      gap: var(--space-2);
     }
 
-    .gallery-item--featured,
-    .gallery-item--wide {
-      grid-column: span 1;
+    .gallery-item--featured {
+      grid-column: span 2;
       grid-row: span 1;
       height: 200px;
     }
 
-    .gallery-item {
-      height: 180px;
+    .gallery-item--wide {
+      grid-column: span 2;
+      height: 160px;
     }
 
+    .gallery-item {
+      height: 150px;
+    }
+
+    /* Sports: 2 columns on mobile */
     .sports-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-3);
+    }
+
+    .sport-card__media {
+      height: 120px;
+    }
+
+    .sport-card__body {
+      padding: var(--space-3) var(--space-4);
+    }
+
+    .sport-card__desc {
+      display: none; /* Hide description on small cards — show on tap */
+    }
+
+    /* CTA banner reduced padding */
+    .cta-banner {
+      padding: var(--space-16) 0;
     }
 
     .image-strip__img {
-      width: 150px;
-      height: 90px;
+      width: 140px;
+      height: 88px;
+    }
+
+    /* Add bottom padding for sticky CTA bar */
+    .section:last-of-type {
+      padding-bottom: calc(var(--space-16) + 80px);
+    }
+  }
+
+  @media (max-width: 390px) {
+    .sports-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>
