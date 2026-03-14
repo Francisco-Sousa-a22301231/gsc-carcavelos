@@ -1,16 +1,23 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import PageHeader from '../components/PageHeader.astro';
 import { socioBenefits, socioDuties } from '../data/site-content';
 ---
 
 <Layout title="Sócios" description="Torna-te sócio do Grupo Sportivo de Carcavelos. Benefícios, formulário de inscrição e deveres dos sócios.">
-  <PageHeader
-    badge="Sócios"
-    title="Torna-te"
-    highlight="Sócio"
-    description="Faz parte do GSC e desfruta de todas as vantagens de pertencer ao nosso clube."
-  />
+  <!-- Hero with Image -->
+  <section class="socios-hero">
+    <div class="socios-hero__bg">
+      <img src="/images/community/team-huddle.jpg" alt="Equipa GSC" loading="eager" />
+      <div class="socios-hero__overlay"></div>
+    </div>
+    <div class="container socios-hero__content">
+      <span class="badge badge--hero reveal">Sócios</span>
+      <h1 class="text-h1 reveal reveal-delay-1">
+        Torna-te <span class="socios-hero__highlight">Sócio</span>
+      </h1>
+      <p class="socios-hero__desc reveal reveal-delay-2">Faz parte do GSC e desfruta de todas as vantagens de pertencer ao nosso clube.</p>
+    </div>
+  </section>
 
   <!-- Benefits -->
   <section class="section">
@@ -169,6 +176,63 @@ import { socioBenefits, socioDuties } from '../data/site-content';
 </script>
 
 <style>
+  .socios-hero {
+    position: relative;
+    padding-top: calc(var(--header-height) + var(--space-24));
+    padding-bottom: var(--space-32);
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .socios-hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .socios-hero__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .socios-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.75) 100%);
+  }
+
+  .socios-hero__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .socios-hero__content .text-h1 { color: #ffffff; }
+
+  .socios-hero__highlight {
+    background: linear-gradient(135deg, #4ade80 0%, #facc15 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .socios-hero__desc {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: var(--fs-body-lg);
+    max-width: 560px;
+  }
+
+  .badge--hero {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+  }
+
   .register-card {
     padding: var(--space-10);
   }

@@ -1,49 +1,76 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import PageHeader from '../../components/PageHeader.astro';
 ---
 
 <Layout title="História" description="A história do Grupo Sportivo de Carcavelos desde a sua fundação em 1922.">
-  <PageHeader
-    badge="O Clube"
-    title="A Nossa"
-    highlight="História"
-    description="Mais de 100 anos de desporto, tradição e comunidade em Carcavelos."
-  />
+  <!-- Hero with Image -->
+  <section class="historia-hero">
+    <div class="historia-hero__bg">
+      <img src="/images/club/historic.jpg" alt="História do GSC" loading="eager" />
+      <div class="historia-hero__overlay"></div>
+    </div>
+    <div class="container historia-hero__content">
+      <span class="badge badge--hero reveal">O Clube</span>
+      <h1 class="text-h1 reveal reveal-delay-1">
+        A Nossa <span class="historia-hero__highlight">História</span>
+      </h1>
+      <p class="historia-hero__desc reveal reveal-delay-2">Mais de 100 anos de desporto, tradição e comunidade em Carcavelos.</p>
+    </div>
+  </section>
 
-  <!-- Founding -->
+  <!-- Founding with Image -->
   <section class="section">
     <div class="container container--md">
-      <div class="history-block reveal">
-        <span class="badge">1922</span>
-        <h2 class="text-h2">A <span class="text-gradient">Fundação</span></h2>
-        <p class="text-body-lg">
-          O Grupo Sportivo de Carcavelos foi fundado em 1922 como um clube de ciclismo, numa época em que o desporto começava a ganhar expressão popular em Portugal. Desde o início, o clube representou o espírito da comunidade de Carcavelos.
-        </p>
+      <div class="history-visual-block reveal">
+        <div class="history-visual-block__image">
+          <img src="/images/club/stadium.jpg" alt="Instalações do GSC" loading="lazy" />
+        </div>
+        <div class="history-visual-block__content">
+          <span class="badge">1922</span>
+          <h2 class="text-h2">A <span class="text-gradient">Fundação</span></h2>
+          <p class="text-body-lg">
+            O Grupo Sportivo de Carcavelos foi fundado em 1922 como um clube de ciclismo, numa época em que o desporto começava a ganhar expressão popular em Portugal. Desde o início, o clube representou o espírito da comunidade de Carcavelos.
+          </p>
+        </div>
       </div>
 
-      <div class="history-block reveal">
-        <span class="badge">1927</span>
-        <h2 class="text-h2">A Volta a <span class="text-gradient">Portugal</span></h2>
-        <p class="text-body-lg">
-          Em 1927, o ciclista do clube António Augusto Carvalho venceu a primeira edição da Volta a Portugal em bicicleta, um feito histórico que colocou o GSC no mapa do desporto nacional. Esta conquista inaugural permanece como um dos momentos mais marcantes da história do clube.
-        </p>
+      <div class="history-visual-block history-visual-block--reverse reveal">
+        <div class="history-visual-block__image">
+          <img src="/images/community/training.jpg" alt="Treino no GSC" loading="lazy" />
+        </div>
+        <div class="history-visual-block__content">
+          <span class="badge">1927</span>
+          <h2 class="text-h2">A Volta a <span class="text-gradient">Portugal</span></h2>
+          <p class="text-body-lg">
+            Em 1927, o ciclista do clube António Augusto Carvalho venceu a primeira edição da Volta a Portugal em bicicleta, um feito histórico que colocou o GSC no mapa do desporto nacional.
+          </p>
+        </div>
       </div>
 
-      <div class="history-block reveal">
-        <span class="badge">Décadas de Crescimento</span>
-        <h2 class="text-h2">Evolução e <span class="text-gradient">Crescimento</span></h2>
-        <p class="text-body-lg">
-          Ao longo das décadas seguintes, o GSC evoluiu de um clube exclusivamente de ciclismo para um clube multidesportivo. Foram-se juntando novas modalidades — atletismo, ginástica, halterofilismo, futebol — acompanhando o crescimento da vila de Carcavelos e as aspirações dos seus habitantes.
-        </p>
+      <div class="history-visual-block reveal">
+        <div class="history-visual-block__image">
+          <img src="/images/community/families.jpg" alt="Comunidade GSC" loading="lazy" />
+        </div>
+        <div class="history-visual-block__content">
+          <span class="badge">Décadas de Crescimento</span>
+          <h2 class="text-h2">Evolução e <span class="text-gradient">Crescimento</span></h2>
+          <p class="text-body-lg">
+            Ao longo das décadas seguintes, o GSC evoluiu de um clube exclusivamente de ciclismo para um clube multidesportivo. Foram-se juntando novas modalidades — atletismo, ginástica, halterofilismo, futebol.
+          </p>
+        </div>
       </div>
 
-      <div class="history-block reveal">
-        <span class="badge">Presente</span>
-        <h2 class="text-h2">Hoje: 5 <span class="text-gradient">Modalidades</span></h2>
-        <p class="text-body-lg">
-          Atualmente, o Grupo Sportivo de Carcavelos é um clube com 5 modalidades desportivas ativas: futebol, ginástica, karaté, boxe olímpico e halterofilismo. Com mais de 300 atletas e 8 escalões de futebol de formação, o GSC continua a ser um pilar fundamental do desporto e da comunidade em Carcavelos, honrando mais de um século de tradição.
-        </p>
+      <div class="history-visual-block history-visual-block--reverse reveal">
+        <div class="history-visual-block__image">
+          <img src="/images/community/team-huddle.jpg" alt="Equipa GSC" loading="lazy" />
+        </div>
+        <div class="history-visual-block__content">
+          <span class="badge">Presente</span>
+          <h2 class="text-h2">Hoje: 5 <span class="text-gradient">Modalidades</span></h2>
+          <p class="text-body-lg">
+            Atualmente, o GSC é um clube com 5 modalidades desportivas ativas: futebol, ginástica, karaté, boxe olímpico e halterofilismo. Com mais de 300 atletas e 8 escalões de futebol de formação.
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -85,7 +112,7 @@ import PageHeader from '../../components/PageHeader.astro';
         <div class="timeline__item">
           <div class="timeline__dot"></div>
           <div class="timeline__year">2024</div>
-          <div class="timeline__content">O GSC mantém 5 modalidades ativas com mais de 300 atletas, liderado pelo presidente Miguel João Esteves Domingues.</div>
+          <div class="timeline__content">O GSC mantém 5 modalidades ativas com mais de 300 atletas.</div>
         </div>
       </div>
     </div>
@@ -93,26 +120,113 @@ import PageHeader from '../../components/PageHeader.astro';
 </Layout>
 
 <style>
-  .history-block {
-    margin-bottom: var(--space-16);
+  .historia-hero {
+    position: relative;
+    padding-top: calc(var(--header-height) + var(--space-24));
+    padding-bottom: var(--space-32);
+    overflow: hidden;
     text-align: center;
   }
 
-  .history-block:last-child {
-    margin-bottom: 0;
+  .historia-hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
   }
 
-  .history-block .badge {
-    margin-bottom: var(--space-4);
+  .historia-hero__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
-  .history-block h2 {
-    margin-bottom: var(--space-6);
+  .historia-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.75) 100%);
   }
 
-  .history-block p {
-    max-width: 640px;
-    margin: 0 auto;
-    line-height: var(--lh-relaxed);
+  .historia-hero__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .historia-hero__content .text-h1 { color: #ffffff; }
+
+  .historia-hero__highlight {
+    background: linear-gradient(135deg, #4ade80 0%, #facc15 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .historia-hero__desc {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: var(--fs-body-lg);
+    max-width: 560px;
+  }
+
+  .badge--hero {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+  }
+
+  .history-visual-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-10);
+    align-items: center;
+    margin-bottom: var(--space-20);
+  }
+
+  .history-visual-block:last-child { margin-bottom: 0; }
+
+  .history-visual-block--reverse .history-visual-block__image { order: 2; }
+  .history-visual-block--reverse .history-visual-block__content { order: 1; }
+
+  .history-visual-block__image {
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .history-visual-block__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 4 / 3;
+  }
+
+  .history-visual-block__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .history-visual-block__content .badge { align-self: flex-start; }
+  .history-visual-block__content p { line-height: var(--lh-relaxed); }
+
+  @media (max-width: 768px) {
+    .history-visual-block {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    .history-visual-block--reverse .history-visual-block__image,
+    .history-visual-block--reverse .history-visual-block__content {
+      order: 0;
+    }
+
+    .historia-hero {
+      padding-top: calc(var(--header-height) + var(--space-16));
+      padding-bottom: var(--space-24);
+    }
   }
 </style>

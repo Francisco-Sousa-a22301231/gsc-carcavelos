@@ -2,6 +2,14 @@
 import Layout from '../../layouts/Layout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import { sports } from '../../data/site-content';
+
+const sportImages: Record<string, string> = {
+  futebol: '/images/sports/futebol.jpg',
+  ginastica: '/images/sports/ginastica.jpg',
+  karate: '/images/sports/karate.jpg',
+  boxe: '/images/sports/boxe.jpg',
+  halterofilismo: '/images/sports/halterofilismo.jpg',
+};
 ---
 
 <Layout title="Modalidades" description="As 5 modalidades desportivas do Grupo Sportivo de Carcavelos: futebol, ginástica, karaté, boxe olímpico e halterofilismo.">
@@ -14,63 +22,149 @@ import { sports } from '../../data/site-content';
 
   <section class="section">
     <div class="container">
-      <div class="grid grid--3">
+      <div class="modalidades-grid">
         {sports.map((sport, i) => (
-          <a href={`/modalidades/${sport.slug}`} class={`card card--interactive sport-card sport-color--${sport.color} reveal reveal-delay-${(i % 3) + 1}`}>
-            <div class="sport-card__icon" style={`background: var(--sport-accent-muted); color: var(--sport-accent);`}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/></svg>
+          <a href={`/modalidades/${sport.slug}`} class={`modalidade-card sport-color--${sport.color} reveal reveal-delay-${(i % 3) + 1}`}>
+            <div class="modalidade-card__image">
+              <img src={sportImages[sport.slug]} alt={sport.name} loading="lazy" />
+              <div class="modalidade-card__image-overlay"></div>
+              <span class="modalidade-card__badge" style={`background: var(--sport-accent); color: #fff;`}>{sport.name}</span>
             </div>
-            <h3 class="sport-card__title">{sport.name}</h3>
-            <p class="sport-card__desc">{sport.description}</p>
-            {sport.location && (
-              <span class="sport-card__location">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                {sport.location}
+            <div class="modalidade-card__body">
+              <h3 class="modalidade-card__title">{sport.name}</h3>
+              <p class="modalidade-card__desc">{sport.description}</p>
+              {sport.location && (
+                <span class="modalidade-card__location">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  {sport.location}
+                </span>
+              )}
+              <span class="modalidade-card__link" style={`color: var(--sport-accent);`}>
+                Ver mais &rarr;
               </span>
-            )}
-            <span class="sport-card__link" style={`color: var(--sport-accent);`}>
-              Ver mais &rarr;
-            </span>
+            </div>
           </a>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Action Gallery -->
+  <section class="section bg-grid">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="badge">Galeria</span>
+        <h2 class="text-h2">Os Nossos <span class="text-gradient">Atletas</span></h2>
+        <p>Momentos de treino e competição nas modalidades do GSC.</p>
+      </div>
+      <div class="action-gallery">
+        <div class="action-gallery__item action-gallery__item--wide reveal">
+          <img src="/images/sports/futebol-action.jpg" alt="Futebol em ação" loading="lazy" />
+          <div class="action-gallery__label">Futebol</div>
+        </div>
+        <div class="action-gallery__item reveal reveal-delay-1">
+          <img src="/images/sports/ginastica-action.jpg" alt="Ginástica" loading="lazy" />
+          <div class="action-gallery__label">Ginástica</div>
+        </div>
+        <div class="action-gallery__item reveal reveal-delay-2">
+          <img src="/images/sports/karate-action.jpg" alt="Karaté" loading="lazy" />
+          <div class="action-gallery__label">Karaté</div>
+        </div>
+        <div class="action-gallery__item reveal reveal-delay-1">
+          <img src="/images/sports/boxe-action.jpg" alt="Boxe" loading="lazy" />
+          <div class="action-gallery__label">Boxe</div>
+        </div>
+        <div class="action-gallery__item action-gallery__item--wide reveal reveal-delay-2">
+          <img src="/images/sports/halterofilismo-action.jpg" alt="Halterofilismo" loading="lazy" />
+          <div class="action-gallery__label">Halterofilismo</div>
+        </div>
       </div>
     </div>
   </section>
 </Layout>
 
 <style>
-  .sport-card {
-    padding: var(--space-8);
+  .modalidades-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-8);
+  }
+
+  .modalidades-grid > :nth-child(4),
+  .modalidades-grid > :nth-child(5) {
+    grid-column: span 1;
+  }
+
+  .modalidade-card {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    text-decoration: none;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface-card);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .modalidade-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .modalidade-card__image {
+    position: relative;
+    height: 240px;
+    overflow: hidden;
+  }
+
+  .modalidade-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--duration-slow) var(--ease-out);
+  }
+
+  .modalidade-card:hover .modalidade-card__image img {
+    transform: scale(1.1);
+  }
+
+  .modalidade-card__image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 50%);
+  }
+
+  .modalidade-card__badge {
+    position: absolute;
+    bottom: var(--space-4);
+    left: var(--space-4);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--ls-wide);
+    text-transform: uppercase;
+  }
+
+  .modalidade-card__body {
+    padding: var(--space-6);
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
-    text-decoration: none;
   }
 
-  .sport-card__icon {
-    width: 48px;
-    height: 48px;
-    border-radius: var(--radius-lg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .sport-card__title {
+  .modalidade-card__title {
     font-family: var(--font-display);
     font-size: var(--fs-h3);
     font-weight: var(--fw-bold);
     color: var(--color-text-primary);
   }
 
-  .sport-card__desc {
+  .modalidade-card__desc {
     font-size: var(--fs-small);
     color: var(--color-text-secondary);
     line-height: var(--lh-relaxed);
-    flex: 1;
   }
 
-  .sport-card__location {
+  .modalidade-card__location {
     display: flex;
     align-items: center;
     gap: var(--space-2);
@@ -78,13 +172,81 @@ import { sports } from '../../data/site-content';
     color: var(--color-text-tertiary);
   }
 
-  .sport-card__link {
+  .modalidade-card__link {
     font-size: var(--fs-small);
     font-weight: var(--fw-semibold);
     transition: transform var(--transition-fast);
+    display: inline-block;
   }
 
-  .sport-card:hover .sport-card__link {
+  .modalidade-card:hover .modalidade-card__link {
     transform: translateX(4px);
+  }
+
+  /* Action Gallery */
+  .action-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+
+  .action-gallery__item {
+    position: relative;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    cursor: pointer;
+  }
+
+  .action-gallery__item--wide {
+    grid-column: span 2;
+  }
+
+  .action-gallery__item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--duration-slow) var(--ease-out);
+  }
+
+  .action-gallery__item:hover img {
+    transform: scale(1.08);
+  }
+
+  .action-gallery__label {
+    position: absolute;
+    bottom: var(--space-4);
+    left: var(--space-4);
+    padding: var(--space-1) var(--space-3);
+    background: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+    border-radius: var(--radius-full);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    backdrop-filter: blur(10px);
+  }
+
+  @media (max-width: 1024px) {
+    .modalidades-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .action-gallery {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .action-gallery__item--wide {
+      grid-column: span 1;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .modalidades-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .action-gallery {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

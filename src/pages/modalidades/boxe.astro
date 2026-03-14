@@ -1,15 +1,31 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import PageHeader from '../../components/PageHeader.astro';
 ---
 
 <Layout title="Boxe Olímpico" description="Boxe Olímpico no Grupo Sportivo de Carcavelos — Disciplina olímpica com tradição no clube.">
-  <PageHeader
-    badge="Boxe Olímpico"
-    title="Boxe"
-    highlight="Olímpico"
-    description="Disciplina olímpica com tradição no Grupo Sportivo de Carcavelos."
-  />
+  <!-- Hero with Image -->
+  <section class="sport-hero">
+    <div class="sport-hero__bg">
+      <img src="/images/sports/boxe-action.jpg" alt="Boxe Olímpico GSC" loading="eager" />
+      <div class="sport-hero__overlay"></div>
+    </div>
+    <div class="container sport-hero__content">
+      <span class="badge badge--hero reveal">Boxe Olímpico</span>
+      <h1 class="text-h1 reveal reveal-delay-1">
+        Boxe <span class="sport-hero__highlight">Olímpico</span>
+      </h1>
+      <p class="sport-hero__desc reveal reveal-delay-2">Disciplina olímpica com tradição no Grupo Sportivo de Carcavelos.</p>
+    </div>
+  </section>
+
+  <!-- Main Image -->
+  <section class="section--sm" style="margin-top: -60px; position: relative; z-index: 2;">
+    <div class="container">
+      <div class="sport-main-image reveal-scale">
+        <img src="/images/sports/boxe.jpg" alt="Boxe" loading="eager" />
+      </div>
+    </div>
+  </section>
 
   <!-- About -->
   <section class="section">
@@ -74,15 +90,84 @@ import PageHeader from '../../components/PageHeader.astro';
 </Layout>
 
 <style>
+  .sport-hero {
+    position: relative;
+    padding-top: calc(var(--header-height) + var(--space-24));
+    padding-bottom: var(--space-32);
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .sport-hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .sport-hero__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .sport-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.7) 100%);
+  }
+
+  .sport-hero__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .sport-hero__content .text-h1 { color: #ffffff; }
+
+  .sport-hero__highlight {
+    background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .sport-hero__desc {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: var(--fs-body-lg);
+    max-width: 560px;
+  }
+
+  .badge--hero {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+  }
+
+  .sport-main-image {
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-xl);
+    aspect-ratio: 21 / 9;
+  }
+
+  .sport-main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   .content-block {
     text-align: center;
     max-width: 640px;
     margin: 0 auto;
   }
 
-  .content-block p {
-    line-height: var(--lh-relaxed);
-  }
+  .content-block p { line-height: var(--lh-relaxed); }
 
   .info-notice {
     display: flex;
@@ -99,12 +184,18 @@ import PageHeader from '../../components/PageHeader.astro';
     margin-top: 2px;
   }
 
-  .info-notice h3 {
-    margin-bottom: var(--space-2);
-  }
+  .info-notice h3 { margin-bottom: var(--space-2); }
 
   .info-notice p {
     font-size: var(--fs-small);
     line-height: var(--lh-relaxed);
+  }
+
+  @media (max-width: 640px) {
+    .sport-hero {
+      padding-top: calc(var(--header-height) + var(--space-16));
+      padding-bottom: var(--space-24);
+    }
+    .sport-main-image { aspect-ratio: 16 / 10; }
   }
 </style>
