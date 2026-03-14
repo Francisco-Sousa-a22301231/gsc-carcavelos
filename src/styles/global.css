@@ -550,6 +550,18 @@ select {
 
 @media (max-width: 640px) {
 
+  .section {
+    padding: var(--space-16) 0;
+  }
+
+  .section--sm {
+    padding: var(--space-10) 0;
+  }
+
+  .section-header {
+    margin-bottom: var(--space-10);
+  }
+
   .grid--5,
   .grid--4,
   .grid--3,

@@ -407,6 +407,45 @@ const currentPath = Astro.url.pathname;
     padding: var(--space-4) 0 var(--space-1);
   }
 
+  /* Dark Hero Variant — white text before scroll */
+  .nav--hero-dark:not(.scrolled) .nav__link {
+    color: #ffffff;
+  }
+
+  .nav--hero-dark:not(.scrolled) .nav__link:hover {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .nav--hero-dark:not(.scrolled) .nav__link--active {
+    color: #ffffff;
+  }
+
+  .nav--hero-dark:not(.scrolled) .nav__link--active::after {
+    background: #ffffff;
+  }
+
+  .nav--hero-dark:not(.scrolled) .nav__logo-text {
+    color: #ffffff;
+  }
+
+  .nav--hero-dark:not(.scrolled) .nav__dropdown-arrow {
+    color: #ffffff;
+  }
+
+  .nav--hero-dark:not(.scrolled) .nav__toggle span {
+    background: #ffffff;
+  }
+
+  .nav--hero-dark:not(.scrolled) .nav__cta.btn--secondary {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .nav--hero-dark:not(.scrolled) .nav__cta.btn--secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
   /* Responsive */
   @media (max-width: 960px) {
     .nav__links,
@@ -424,6 +463,14 @@ const currentPath = Astro.url.pathname;
     const header = document.getElementById('nav-header');
     const toggle = document.getElementById('mobile-toggle');
     const menu = document.getElementById('mobile-menu');
+
+    // Dark hero detection — check if page has a dark image hero
+    const hasDarkHero = !!document.querySelector('.hero, .sport-hero, .historia-hero, .socios-hero, .contacto-hero');
+    if (hasDarkHero) {
+      header?.classList.add('nav--hero-dark');
+    } else {
+      header?.classList.remove('nav--hero-dark');
+    }
 
     // Scroll effect
     const onScroll = () => {
