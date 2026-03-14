@@ -32,39 +32,59 @@ import { heroContent, stats, sports, values, socioBenefits, events, siteConfig }
     })} />
   </Fragment>
 
-  <!-- Hero Section -->
+  <!-- ═══════════════════════════════════════
+       HERO — Full-screen with dual image fade
+  ═══════════════════════════════════════════ -->
   <section class="hero">
     <div class="hero__bg">
-      <div class="hero__photo"></div>
-      <div class="hero__gradient"></div>
-      <div class="hero__grid"></div>
+      <img src="/images/hero/football-aerial.jpg" alt="Campo de futebol" class="hero__bg-image hero__bg-image--1" loading="eager" />
+      <img src="/images/hero/football-field.jpg" alt="Campo da Quinta Nova" class="hero__bg-image hero__bg-image--2" loading="eager" />
+      <div class="hero__overlay"></div>
+      <div class="hero__overlay-gradient"></div>
     </div>
     <div class="container hero__content">
-      <span class="badge reveal">Fundado em 1922</span>
+      <span class="badge badge--hero reveal">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Fundado em 1922
+      </span>
       <h1 class="text-display reveal reveal-delay-1">
         {heroContent.title}
-        <span class="text-gradient">{heroContent.highlight}</span>
+        <span class="hero__highlight">{heroContent.highlight}</span>
       </h1>
       <p class="hero__desc text-body-lg reveal reveal-delay-2">
         {heroContent.description}
       </p>
       <div class="hero__actions reveal reveal-delay-3">
-        <a href="/socios" class="btn btn--primary btn--lg btn--pill">
+        <a href="/socios" class="btn btn--hero-primary btn--lg btn--pill">
           Torna-te Sócio
           <span class="btn-arrow">&rarr;</span>
         </a>
-        <a href="/modalidades" class="btn btn--secondary btn--lg btn--pill">
+        <a href="/modalidades" class="btn btn--hero-secondary btn--lg btn--pill">
           Ver Modalidades
         </a>
       </div>
+      <!-- Social proof strip -->
+      <div class="hero__social-proof reveal reveal-delay-3">
+        <div class="hero__avatars">
+          <img src="/images/sports/futebol.png" alt="" class="hero__avatar" />
+          <img src="/images/sports/ginastica.png" alt="" class="hero__avatar" />
+          <img src="/images/sports/karate.png" alt="" class="hero__avatar" />
+        </div>
+        <span class="hero__social-text">+300 atletas em 5 modalidades</span>
+      </div>
+    </div>
+    <div class="hero__scroll-indicator reveal reveal-delay-3">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
     </div>
   </section>
 
-  <!-- Stats -->
+  <!-- ═══════════════════════════════════════
+       STATS — Animated counters
+  ═══════════════════════════════════════════ -->
   <section class="section--sm">
     <div class="container">
       <div class="stats-grid reveal">
-        {stats.map((stat) => (
+        {stats.map((stat, i) => (
           <div class="stat-item">
             <span class="stat-value" data-count={stat.value.replace('+', '')} data-suffix={stat.value.includes('+') ? '+' : ''}>{stat.value}</span>
             <span class="stat-label">{stat.label}</span>
@@ -74,7 +94,72 @@ import { heroContent, stats, sports, values, socioBenefits, events, siteConfig }
     </div>
   </section>
 
-  <!-- Galeria -->
+  <!-- ═══════════════════════════════════════
+       ABOUT — Split layout with image
+  ═══════════════════════════════════════════ -->
+  <section class="section about-section">
+    <div class="container">
+      <div class="about-split">
+        <div class="about-split__visual reveal">
+          <div class="about-split__img-wrapper">
+            <img src="/images/hero/football-field.jpg" alt="Campo da Quinta Nova — GSC Carcavelos" loading="lazy" class="about-split__img" />
+            <div class="about-split__badge">
+              <span class="about-split__badge-year">1922</span>
+              <span class="about-split__badge-label">Fundação</span>
+            </div>
+          </div>
+          <!-- Floating image 2 -->
+          <div class="about-split__float">
+            <img src="/images/gallery/campo-1.jpg" alt="Jogo do GSC" loading="lazy" class="about-split__float-img" />
+          </div>
+        </div>
+        <div class="about-split__text reveal reveal-delay-2">
+          <span class="badge">O Nosso Clube</span>
+          <h2 class="text-h2">Mais de <span class="text-gradient">100 Anos</span><br/>de Desporto</h2>
+          <p class="about-split__desc">
+            O Grupo Sportivo de Carcavelos nasceu em 1922 como símbolo de desporto e comunidade. Ao longo de um século, forjámos campeões, formámos pessoas e unimos gerações em torno do desporto.
+          </p>
+          <p class="about-split__desc">
+            Hoje, com 5 modalidades ativas e um renovado Campo da Quinta Nova (inaugurado em 2023 com investimento de 300 000€), o GSC olha para o futuro mantendo viva a sua alma centenária.
+          </p>
+          <div class="about-split__actions">
+            <a href="/clube/historia" class="btn btn--primary btn--pill">
+              Conhece a Nossa História
+              <span class="btn-arrow">&rarr;</span>
+            </a>
+            <a href="/clube/conquistas" class="btn btn--secondary btn--pill">
+              Conquistas
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       IMAGE STRIP — Horizontal scroll
+  ═══════════════════════════════════════════ -->
+  <div class="image-strip" aria-hidden="true">
+    <div class="image-strip__track">
+      <img src="/images/gallery/campo-1.jpg" alt="" class="image-strip__img" loading="lazy" />
+      <img src="/images/sports/futebol.png" alt="" class="image-strip__img" loading="lazy" />
+      <img src="/images/gallery/campo-2.jpg" alt="" class="image-strip__img" loading="lazy" />
+      <img src="/images/sports/ginastica.png" alt="" class="image-strip__img" loading="lazy" />
+      <img src="/images/gallery/campo-3.jpg" alt="" class="image-strip__img" loading="lazy" />
+      <img src="/images/sports/karate.png" alt="" class="image-strip__img" loading="lazy" />
+      <img src="/images/hero/football-field.jpg" alt="" class="image-strip__img" loading="lazy" />
+      <img src="/images/hero/football-aerial.jpg" alt="" class="image-strip__img" loading="lazy" />
+      <!-- Duplicate for seamless loop -->
+      <img src="/images/gallery/campo-1.jpg" alt="" class="image-strip__img" loading="lazy" />
+      <img src="/images/sports/futebol.png" alt="" class="image-strip__img" loading="lazy" />
+      <img src="/images/gallery/campo-2.jpg" alt="" class="image-strip__img" loading="lazy" />
+      <img src="/images/sports/ginastica.png" alt="" class="image-strip__img" loading="lazy" />
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       GALLERY — Expanded 9-image grid
+  ═══════════════════════════════════════════ -->
   <section class="section bg-dots">
     <div class="container">
       <div class="section-header reveal">
@@ -83,17 +168,69 @@ import { heroContent, stats, sports, values, socioBenefits, events, siteConfig }
         <p>Recinto desportivo renovado com investimento de 300 000€, inaugurado em janeiro de 2023.</p>
       </div>
       <div class="gallery-grid reveal">
-        <img src="/images/sports/futebol.png" alt="Futebol no GSC — Campo da Quinta Nova" class="gallery-img gallery-img--featured" loading="lazy" />
-        <img src="/images/gallery/campo-1.jpg" alt="Jogo do GSC Carcavelos" loading="lazy" class="gallery-img" />
-        <img src="/images/gallery/campo-2.jpg" alt="GSC Carcavelos em campo" loading="lazy" class="gallery-img" />
-        <img src="/images/sports/ginastica.png" alt="Ginástica — GSC Carcavelos" loading="lazy" class="gallery-img" />
-        <img src="/images/gallery/campo-3.jpg" alt="GSC Carcavelos — jogo" loading="lazy" class="gallery-img" />
-        <img src="/images/sports/karate.png" alt="Karaté — GSC Carcavelos" loading="lazy" class="gallery-img" />
+        <!-- Feature (top-left, spans 2 cols x 2 rows) -->
+        <div class="gallery-item gallery-item--featured">
+          <img src="/images/sports/futebol.png" alt="Futebol no GSC — Campo da Quinta Nova" loading="lazy" class="gallery-img" />
+          <div class="gallery-item__overlay">
+            <span class="gallery-item__label">Futebol</span>
+          </div>
+        </div>
+        <!-- Top right col 3 -->
+        <div class="gallery-item">
+          <img src="/images/gallery/campo-1.jpg" alt="Jogo do GSC Carcavelos" loading="lazy" class="gallery-img" />
+          <div class="gallery-item__overlay">
+            <span class="gallery-item__label">Jogo</span>
+          </div>
+        </div>
+        <!-- Row 2 col 3 -->
+        <div class="gallery-item">
+          <img src="/images/gallery/campo-2.jpg" alt="GSC Carcavelos em campo" loading="lazy" class="gallery-img" />
+          <div class="gallery-item__overlay">
+            <span class="gallery-item__label">Treino</span>
+          </div>
+        </div>
+        <!-- Row 3 col 1 -->
+        <div class="gallery-item">
+          <img src="/images/sports/ginastica.png" alt="Ginástica — GSC Carcavelos" loading="lazy" class="gallery-img" />
+          <div class="gallery-item__overlay">
+            <span class="gallery-item__label">Ginástica</span>
+          </div>
+        </div>
+        <!-- Row 3 col 2 -->
+        <div class="gallery-item">
+          <img src="/images/gallery/campo-3.jpg" alt="GSC Carcavelos — jogo" loading="lazy" class="gallery-img" />
+          <div class="gallery-item__overlay">
+            <span class="gallery-item__label">Campo</span>
+          </div>
+        </div>
+        <!-- Row 3 col 3 -->
+        <div class="gallery-item">
+          <img src="/images/sports/karate.png" alt="Karaté — GSC Carcavelos" loading="lazy" class="gallery-img" />
+          <div class="gallery-item__overlay">
+            <span class="gallery-item__label">Karaté</span>
+          </div>
+        </div>
+        <!-- Row 4 — wide banner -->
+        <div class="gallery-item gallery-item--wide">
+          <img src="/images/hero/football-aerial.jpg" alt="Vista aérea do Campo da Quinta Nova" loading="lazy" class="gallery-img" />
+          <div class="gallery-item__overlay gallery-item__overlay--wide">
+            <span class="gallery-item__label">Vista Aérea — Quinta Nova</span>
+          </div>
+        </div>
+        <!-- Row 4 col 3 -->
+        <div class="gallery-item">
+          <img src="/images/hero/football-field.jpg" alt="Campo da Quinta Nova" loading="lazy" class="gallery-img" />
+          <div class="gallery-item__overlay">
+            <span class="gallery-item__label">Quinta Nova</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Modalidades -->
+  <!-- ═══════════════════════════════════════
+       MODALIDADES — Sport Cards with images
+  ═══════════════════════════════════════════ -->
   <section class="section">
     <div class="container">
       <div class="section-header reveal">
@@ -101,29 +238,62 @@ import { heroContent, stats, sports, values, socioBenefits, events, siteConfig }
         <h2 class="text-h2">5 Desportos, Uma <span class="text-gradient">Família</span></h2>
         <p>Descobre a modalidade ideal para ti. Do futebol à ginástica, do karaté ao halterofilismo.</p>
       </div>
-      <div class="grid grid--5">
+      <div class="sports-grid reveal">
         {sports.map((sport, i) => (
-          <a href={`/modalidades/${sport.slug}`} class={`card card--interactive sport-card sport-color--${sport.color} reveal reveal-delay-${i + 1}`}>
-            {sport.image && sport.image.endsWith('.png') && (
-              <div class="sport-card__img">
-                <img src={sport.image} alt={sport.name} loading="lazy" />
-              </div>
-            )}
-            <div class="sport-card__icon" style={`background: var(--sport-accent-muted); color: var(--sport-accent);`}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/></svg>
+          <a href={`/modalidades/${sport.slug}`} class={`sport-card sport-color--${sport.color} reveal reveal-delay-${(i % 3) + 1}`}>
+            <div class="sport-card__media">
+              <img
+                src={sport.image || '/images/hero/football-aerial.jpg'}
+                alt={sport.name}
+                loading="lazy"
+                class="sport-card__img"
+                onerror="this.src='/images/hero/football-aerial.jpg'"
+              />
+              <div class="sport-card__media-overlay" style={`background: color-mix(in srgb, var(--sport-accent) 60%, transparent);`}></div>
+              <span class="sport-card__sport-label">{sport.name}</span>
             </div>
-            <h3 class="sport-card__title">{sport.name}</h3>
-            <p class="sport-card__desc">{sport.description}</p>
-            <span class="sport-card__link" style={`color: var(--sport-accent);`}>
-              Saber mais &rarr;
-            </span>
+            <div class="sport-card__body">
+              <div class="sport-card__icon" style={`background: var(--sport-accent-muted); color: var(--sport-accent);`}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/></svg>
+              </div>
+              <p class="sport-card__desc">{sport.description}</p>
+              <span class="sport-card__link" style={`color: var(--sport-accent);`}>
+                Saber mais &rarr;
+              </span>
+            </div>
           </a>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- Values -->
+  <!-- ═══════════════════════════════════════
+       FULL-WIDTH CTA BANNER — Dark overlay
+  ═══════════════════════════════════════════ -->
+  <section class="cta-banner">
+    <div class="cta-banner__bg">
+      <img src="/images/hero/football-aerial.jpg" alt="" class="cta-banner__img" loading="lazy" aria-hidden="true" />
+      <div class="cta-banner__overlay"></div>
+    </div>
+    <div class="container cta-banner__content reveal">
+      <span class="badge badge--hero">Campo da Quinta Nova</span>
+      <h2 class="cta-banner__title">Faz Parte do<br/><span class="cta-banner__highlight">GSC Carcavelos</span></h2>
+      <p class="cta-banner__desc">Mais de 100 anos de tradição. Torna-te sócio e junta-te à nossa família desportiva.</p>
+      <div class="cta-banner__actions">
+        <a href="/socios" class="btn btn--hero-primary btn--lg btn--pill">
+          Inscreve-te Agora
+          <span class="btn-arrow">&rarr;</span>
+        </a>
+        <a href="/contactos" class="btn btn--hero-secondary btn--lg btn--pill">
+          Fala Connosco
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       VALUES — 3 cards
+  ═══════════════════════════════════════════ -->
   <section class="section bg-grid">
     <div class="container">
       <div class="section-header reveal">
@@ -147,7 +317,9 @@ import { heroContent, stats, sports, values, socioBenefits, events, siteConfig }
     </div>
   </section>
 
-  <!-- Benefits / CTA -->
+  <!-- ═══════════════════════════════════════
+       BENEFITS — Member perks
+  ═══════════════════════════════════════════ -->
   <section class="section">
     <div class="container">
       <div class="section-header reveal">
@@ -177,7 +349,9 @@ import { heroContent, stats, sports, values, socioBenefits, events, siteConfig }
     </div>
   </section>
 
-  <!-- Events Preview -->
+  <!-- ═══════════════════════════════════════
+       EVENTS PREVIEW — upcoming
+  ═══════════════════════════════════════════ -->
   <section class="section bg-dots">
     <div class="container">
       <div class="section-header reveal">
@@ -210,11 +384,13 @@ import { heroContent, stats, sports, values, socioBenefits, events, siteConfig }
 </Layout>
 
 <style>
-  /* Hero */
+  /* ─── Hero ─────────────────────────────── */
   .hero {
     position: relative;
-    padding-top: calc(var(--header-height) + var(--space-24));
-    padding-bottom: var(--space-24);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
     text-align: center;
   }
@@ -223,56 +399,77 @@ import { heroContent, stats, sports, values, socioBenefits, events, siteConfig }
     position: absolute;
     inset: 0;
     z-index: 0;
-    pointer-events: none;
   }
 
-  .hero__photo {
+  .hero__bg-image {
     position: absolute;
     inset: 0;
-    background-image: url('/images/gallery/campo-1.jpg');
-    background-size: cover;
-    background-position: center 40%;
-    opacity: 0.07;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 
-  .hero__gradient {
+  .hero__bg-image--1 {
+    animation: hero-crossfade 12s infinite alternate ease-in-out;
+    z-index: 1;
+  }
+
+  .hero__bg-image--2 {
+    z-index: 0;
+    opacity: 1;
+  }
+
+  @keyframes hero-crossfade {
+    0%, 40% { opacity: 1; }
+    60%, 100% { opacity: 0; }
+  }
+
+  .hero__overlay {
     position: absolute;
-    top: -30%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 1000px;
-    height: 600px;
-    background: radial-gradient(
-      ellipse at center,
-      var(--color-accent-glow) 0%,
-      var(--color-accent-2-glow) 30%,
-      transparent 60%
+    inset: 0;
+    z-index: 2;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.5) 0%,
+      rgba(0, 0, 0, 0.3) 40%,
+      rgba(0, 0, 0, 0.7) 100%
     );
-    opacity: 0.8;
   }
 
-  .hero__grid {
+  .hero__overlay-gradient {
     position: absolute;
     inset: 0;
-    background-image:
-      linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-    background-size: 64px 64px;
-    mask-image: radial-gradient(ellipse 70% 70% at center, black 20%, transparent 70%);
-    -webkit-mask-image: radial-gradient(ellipse 70% 70% at center, black 20%, transparent 70%);
+    z-index: 3;
+    background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(22, 163, 74, 0.15) 0%, transparent 70%);
   }
 
   .hero__content {
     position: relative;
-    z-index: 1;
+    z-index: 4;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--space-6);
+    padding: var(--space-24) 0;
+  }
+
+  .hero__content .text-display {
+    color: #ffffff;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero__highlight {
+    display: block;
+    background: linear-gradient(135deg, #4ade80 0%, #facc15 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .hero__desc {
-    max-width: 560px;
+    max-width: 600px;
+    color: rgba(255, 255, 255, 0.88);
   }
 
   .hero__actions {
@@ -282,7 +479,88 @@ import { heroContent, stats, sports, values, socioBenefits, events, siteConfig }
     justify-content: center;
   }
 
-  /* Stats */
+  .badge--hero {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+  }
+
+  .btn--hero-primary {
+    background: var(--color-accent);
+    color: #ffffff;
+    font-weight: var(--fw-semibold);
+    box-shadow: 0 4px 20px rgba(22, 163, 74, 0.45);
+  }
+
+  .btn--hero-primary:hover {
+    background: var(--color-accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(22, 163, 74, 0.55);
+  }
+
+  .btn--hero-secondary {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+  }
+
+  .btn--hero-secondary:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+  }
+
+  /* Social proof */
+  .hero__social-proof {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-full);
+    backdrop-filter: blur(10px);
+  }
+
+  .hero__avatars {
+    display: flex;
+  }
+
+  .hero__avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    object-fit: cover;
+    margin-left: -8px;
+    background: var(--color-accent-muted);
+  }
+
+  .hero__avatar:first-child { margin-left: 0; }
+
+  .hero__social-text {
+    font-size: var(--fs-small);
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: var(--fw-medium);
+  }
+
+  .hero__scroll-indicator {
+    position: absolute;
+    bottom: var(--space-8);
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.5);
+    animation: bounce-down 2s infinite;
+    z-index: 4;
+  }
+
+  @keyframes bounce-down {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ─── Stats ─────────────────────────────── */
   .stats-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -314,119 +592,304 @@ import { heroContent, stats, sports, values, socioBenefits, events, siteConfig }
     font-weight: var(--fw-medium);
   }
 
-  /* Sport Cards */
-  .sport-card {
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    text-decoration: none;
+  /* ─── About Split ─────────────────────── */
+  .about-section {
     overflow: hidden;
   }
 
-  .sport-card__img {
+  .about-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-16);
+    align-items: center;
+  }
+
+  .about-split__visual {
+    position: relative;
+  }
+
+  .about-split__img-wrapper {
+    position: relative;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    box-shadow: var(--shadow-xl);
+  }
+
+  .about-split__img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s var(--ease-out);
+  }
+
+  .about-split__img-wrapper:hover .about-split__img {
+    transform: scale(1.03);
+  }
+
+  .about-split__badge {
+    position: absolute;
+    bottom: var(--space-5);
+    left: var(--space-5);
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-lg);
+    padding: var(--space-3) var(--space-5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-split__badge-year {
+    font-family: var(--font-display);
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-extrabold);
+    color: #4ade80;
+    line-height: 1;
+  }
+
+  .about-split__badge-label {
+    font-size: var(--fs-xs);
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-wider);
+  }
+
+  .about-split__float {
+    position: absolute;
+    bottom: -24px;
+    right: -24px;
+    width: 200px;
     height: 140px;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    border: 3px solid #ffffff;
+  }
+
+  .about-split__float-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .about-split__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    align-items: flex-start;
+  }
+
+  .about-split__text h2 {
+    line-height: 1.15;
+  }
+
+  .about-split__desc {
+    font-size: var(--fs-body-lg);
+    color: var(--color-text-secondary);
+    line-height: var(--lh-relaxed);
+  }
+
+  .about-split__actions {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  /* ─── Image Strip ─────────────────────── */
+  .image-strip {
+    width: 100%;
+    overflow: hidden;
+    padding: var(--space-6) 0;
+    background: var(--color-bg-secondary);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .image-strip__track {
+    display: flex;
+    gap: var(--space-3);
+    animation: strip-scroll 30s linear infinite;
+    width: max-content;
+  }
+
+  .image-strip:hover .image-strip__track {
+    animation-play-state: paused;
+  }
+
+  @keyframes strip-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .image-strip__img {
+    width: 200px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    flex-shrink: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .image-strip__img:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* ─── Gallery ─────────────────────────── */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 280px 280px 180px;
+    gap: var(--space-3);
+  }
+
+  .gallery-item {
+    position: relative;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .gallery-item--featured {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .gallery-item--wide {
+    grid-column: span 2;
+  }
+
+  .gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+    display: block;
+  }
+
+  .gallery-item:hover .gallery-img {
+    transform: scale(1.05);
+  }
+
+  .gallery-item__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: flex-end;
+    padding: var(--space-4);
+  }
+
+  .gallery-item--featured .gallery-item__overlay,
+  .gallery-item--wide .gallery-item__overlay {
+    opacity: 1;
+    background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%);
+  }
+
+  .gallery-item:hover .gallery-item__overlay {
+    opacity: 1;
+  }
+
+  .gallery-item__label {
+    font-family: var(--font-display);
+    font-weight: var(--fw-semibold);
+    font-size: var(--fs-small);
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.5);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    backdrop-filter: blur(6px);
+  }
+
+  /* ─── Sports Grid ─────────────────────── */
+  .sports-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-5);
+  }
+
+  .sport-card {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-surface-card);
+    transition: border-color var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .sport-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--sport-accent);
+  }
+
+  .sport-card__media {
+    position: relative;
+    height: 160px;
     overflow: hidden;
     flex-shrink: 0;
   }
 
-  .sport-card__img img {
+  .sport-card__img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.4s ease;
   }
 
-  .sport-card:hover .sport-card__img img {
-    transform: scale(1.05);
+  .sport-card__img--fallback {
+    object-position: center;
+  }
+
+  .sport-card:hover .sport-card__img {
+    transform: scale(1.08);
+  }
+
+  .sport-card__media-overlay {
+    position: absolute;
+    inset: 0;
+    opacity: 0.35;
+    transition: opacity 0.3s ease;
+    mix-blend-mode: multiply;
+  }
+
+  .sport-card:hover .sport-card__media-overlay {
+    opacity: 0.25;
+  }
+
+  .sport-card__sport-label {
+    position: absolute;
+    bottom: var(--space-3);
+    left: var(--space-3);
+    font-family: var(--font-display);
+    font-weight: var(--fw-bold);
+    font-size: var(--fs-h4);
+    color: #ffffff;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+  }
+
+  .sport-card__body {
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    flex: 1;
   }
 
   .sport-card__icon {
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-lg);
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: var(--space-5) var(--space-5) 0;
-  }
-
-  .sport-card__title {
-    padding: 0 var(--space-5);
-  }
-
-  .sport-card__desc {
-    padding: 0 var(--space-5);
-  }
-
-  .sport-card__link {
-    padding: 0 var(--space-5) var(--space-5);
-  }
-
-  /* Gallery */
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: auto auto;
-    gap: var(--space-3);
-  }
-
-  .gallery-img--featured {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-
-  .gallery-img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-    border-radius: var(--radius-xl);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .gallery-img--featured {
-    height: 100%;
-    min-height: 350px;
-  }
-
-  .gallery-img:hover {
-    transform: scale(1.02);
-    box-shadow: var(--shadow-xl);
-  }
-
-  @media (max-width: 768px) {
-    .gallery-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .gallery-img--featured {
-      grid-column: span 2;
-      grid-row: span 1;
-      min-height: 200px;
-      height: 200px;
-    }
-
-    .gallery-img {
-      height: 160px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .gallery-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .gallery-img--featured {
-      grid-column: span 1;
-    }
-  }
-
-  .sport-card__title {
-    font-family: var(--font-display);
-    font-size: var(--fs-h4);
-    font-weight: var(--fw-bold);
-    color: var(--color-text-primary);
+    flex-shrink: 0;
   }
 
   .sport-card__desc {
@@ -446,16 +909,132 @@ import { heroContent, stats, sports, values, socioBenefits, events, siteConfig }
     transform: translateX(4px);
   }
 
-  /* CTA Center */
+  /* ─── CTA Banner ──────────────────────── */
+  .cta-banner {
+    position: relative;
+    padding: var(--space-32) 0;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .cta-banner__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .cta-banner__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+
+  .cta-banner__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.82) 0%,
+      rgba(5, 60, 20, 0.75) 100%
+    );
+  }
+
+  .cta-banner__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .cta-banner__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: var(--fw-extrabold);
+    color: #ffffff;
+    line-height: var(--lh-tight);
+    letter-spacing: var(--ls-tight);
+  }
+
+  .cta-banner__highlight {
+    background: linear-gradient(135deg, #4ade80 0%, #facc15 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .cta-banner__desc {
+    max-width: 540px;
+    font-size: var(--fs-body-lg);
+    color: rgba(255, 255, 255, 0.8);
+    line-height: var(--lh-relaxed);
+  }
+
+  .cta-banner__actions {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* ─── CTA Center ──────────────────────── */
   .cta-center {
     display: flex;
     justify-content: center;
     margin-top: var(--space-12);
   }
 
+  /* ─── Responsive ──────────────────────── */
+  @media (max-width: 1100px) {
+    .sports-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
   @media (max-width: 1024px) {
     .stats-grid {
       grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about-split {
+      grid-template-columns: 1fr;
+      gap: var(--space-10);
+    }
+
+    .about-split__visual {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .about-split__float {
+      width: 150px;
+      height: 100px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: 200px 200px 160px;
+    }
+
+    .gallery-item--featured {
+      grid-column: span 2;
+      grid-row: span 1;
+    }
+
+    .gallery-item--wide {
+      grid-column: span 2;
+    }
+
+    .sports-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about-split__float {
+      display: none;
     }
   }
 
@@ -465,9 +1044,37 @@ import { heroContent, stats, sports, values, socioBenefits, events, siteConfig }
       padding: var(--space-6);
     }
 
-    .hero {
-      padding-top: calc(var(--header-height) + var(--space-16));
-      padding-bottom: var(--space-16);
+    .hero__content {
+      padding: var(--space-16) 0;
+    }
+
+    .hero__social-proof {
+      display: none;
+    }
+
+    .gallery-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: none;
+    }
+
+    .gallery-item--featured,
+    .gallery-item--wide {
+      grid-column: span 1;
+      grid-row: span 1;
+      height: 200px;
+    }
+
+    .gallery-item {
+      height: 180px;
+    }
+
+    .sports-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .image-strip__img {
+      width: 150px;
+      height: 90px;
     }
   }
 </style>
