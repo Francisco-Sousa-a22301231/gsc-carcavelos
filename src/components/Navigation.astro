@@ -23,6 +23,9 @@ const navLinks = [
 const currentPath = Astro.url.pathname;
 ---
 
+<!-- Mobile backdrop overlay -->
+<div class="nav__mobile-backdrop" id="mobile-backdrop" aria-hidden="true"></div>
+
 <header class="nav" id="nav-header">
   <div class="nav__inner container">
     <!-- Logo -->
@@ -100,30 +103,51 @@ const currentPath = Astro.url.pathname;
   <div class="nav__mobile" id="mobile-menu" aria-hidden="true">
     <nav class="nav__mobile-inner">
       <div class="nav__mobile-links">
-        <a href="/" class="nav__mobile-link">Início</a>
-        <div class="nav__mobile-section">
-          <span class="nav__mobile-section-title">Clube</span>
-          {clubeLinks.map((link) => (
-            <a href={link.href} class="nav__mobile-link nav__mobile-link--sub">{link.label}</a>
-          ))}
+        <a href="/" class="nav__mobile-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Início
+        </a>
+
+        <!-- Collapsible Clube section -->
+        <div class="nav__mobile-section" id="mobile-section-clube">
+          <button class="nav__mobile-section-toggle" aria-expanded="false" aria-controls="mobile-clube-links">
+            <span class="nav__mobile-section-title">Clube</span>
+            <svg class="nav__mobile-section-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="nav__mobile-section-links" id="mobile-clube-links" hidden>
+            {clubeLinks.map((link) => (
+              <a href={link.href} class="nav__mobile-link nav__mobile-link--sub">{link.label}</a>
+            ))}
+          </div>
         </div>
-        <div class="nav__mobile-section">
-          <span class="nav__mobile-section-title">Modalidades</span>
-          <a href="/modalidades" class="nav__mobile-link nav__mobile-link--sub">Todas</a>
-          {modalidadesLinks.map((link) => (
-            <a href={link.href} class="nav__mobile-link nav__mobile-link--sub">{link.label}</a>
-          ))}
+
+        <!-- Collapsible Modalidades section -->
+        <div class="nav__mobile-section" id="mobile-section-modalidades">
+          <button class="nav__mobile-section-toggle" aria-expanded="false" aria-controls="mobile-modalidades-links">
+            <span class="nav__mobile-section-title">Modalidades</span>
+            <svg class="nav__mobile-section-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="nav__mobile-section-links" id="mobile-modalidades-links" hidden>
+            <a href="/modalidades" class="nav__mobile-link nav__mobile-link--sub nav__mobile-link--all">Ver Todas</a>
+            {modalidadesLinks.map((link) => (
+              <a href={link.href} class="nav__mobile-link nav__mobile-link--sub">{link.label}</a>
+            ))}
+          </div>
         </div>
+
         {navLinks.map((link) => (
           <a href={link.href} class="nav__mobile-link">{link.label}</a>
         ))}
       </div>
-      <a href="/login" class="btn btn--secondary btn--lg nav__mobile-cta" id="mobile-login-btn" style="width:100%; margin-bottom: var(--space-2);">
-        Login
-      </a>
-      <a href="/socios" class="btn btn--primary btn--lg nav__mobile-cta" id="mobile-signup-btn" style="width:100%;">
-        Torna-te Sócio
-      </a>
+
+      <div class="nav__mobile-actions">
+        <a href="/login" class="btn btn--secondary btn--lg nav__mobile-cta" id="mobile-login-btn">
+          Login
+        </a>
+        <a href="/socios" class="btn btn--primary btn--lg nav__mobile-cta" id="mobile-signup-btn">
+          Torna-te Sócio
+        </a>
+      </div>
     </nav>
   </div>
 </header>
@@ -300,22 +324,23 @@ const currentPath = Astro.url.pathname;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    gap: 6px;
+    width: 44px;
+    height: 44px;
+    gap: 5px;
     z-index: calc(var(--z-sticky) + 1);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-md);
     transition: background var(--transition-fast);
+    touch-action: manipulation;
   }
 
   .nav__toggle:hover {
-    background: rgba(255,255,255,0.04);
+    background: rgba(0,0,0,0.06);
   }
 
   .nav__toggle span {
     display: block;
-    width: 20px;
-    height: 1.5px;
+    width: 22px;
+    height: 2px;
     background: var(--color-text-primary);
     border-radius: 2px;
     transition: all var(--transition-base);
@@ -323,30 +348,54 @@ const currentPath = Astro.url.pathname;
   }
 
   .nav__toggle.open span:first-child {
-    transform: translateY(3.75px) rotate(45deg);
+    transform: translateY(7px) rotate(45deg);
   }
   .nav__toggle.open span:last-child {
-    transform: translateY(-3.75px) rotate(-45deg);
+    transform: translateY(-7px) rotate(-45deg);
   }
 
-  /* Mobile Menu */
+  /* Mobile Menu — slide in from right */
   .nav__mobile {
     position: fixed;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(32px);
-    -webkit-backdrop-filter: blur(32px);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(100vw, 380px);
+    background: var(--color-bg-primary);
+    border-left: 1px solid var(--color-border);
+    box-shadow: var(--shadow-xl);
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
     opacity: 0;
+    transform: translateX(100%);
     pointer-events: none;
-    transition: opacity var(--transition-slow);
+    transition: opacity var(--transition-slow), transform var(--transition-slow);
     z-index: var(--z-sticky);
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
 
   .nav__mobile.open {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  /* Backdrop overlay behind the slide-in menu */
+  .nav__mobile-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: calc(var(--z-sticky) - 1);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-slow);
+  }
+
+  .nav__mobile-backdrop.open {
     opacity: 1;
     pointer-events: auto;
   }
@@ -354,57 +403,131 @@ const currentPath = Astro.url.pathname;
   .nav__mobile-inner {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    gap: var(--space-8);
-    width: 100%;
-    max-width: 320px;
-    padding: var(--space-20) var(--space-6) var(--space-6);
+    height: 100%;
+    padding: var(--space-6) var(--space-5);
+    padding-top: calc(var(--header-height) + var(--space-4));
   }
 
   .nav__mobile-links {
     display: flex;
     flex-direction: column;
-    gap: var(--space-1);
+    flex: 1;
+    gap: 0;
+    overflow-y: auto;
   }
 
   .nav__mobile-link {
     font-family: var(--font-display);
-    font-size: var(--fs-h3);
+    font-size: var(--fs-body-lg);
     font-weight: var(--fw-semibold);
-    color: var(--color-text-secondary);
+    color: var(--color-text-primary);
     text-decoration: none;
-    padding: var(--space-3) 0;
-    border-bottom: 1px solid var(--color-border);
-    transition: color var(--transition-fast);
+    padding: var(--space-4) var(--space-2);
+    border-bottom: 1px solid var(--color-border-subtle);
+    transition: color var(--transition-fast), background var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: 52px;
+    border-radius: var(--radius-md);
+    touch-action: manipulation;
   }
 
-  .nav__mobile-link:hover {
+  .nav__mobile-link:hover,
+  .nav__mobile-link:active {
     color: var(--color-accent-text);
-  }
-
-  .nav__mobile-link:last-child {
-    border-bottom: none;
+    background: var(--color-accent-muted);
   }
 
   .nav__mobile-link--sub {
     font-size: var(--fs-body);
     font-weight: var(--fw-medium);
-    padding-left: var(--space-4);
+    color: var(--color-text-secondary);
+    padding-left: var(--space-5);
+    min-height: 44px;
   }
 
+  .nav__mobile-link--all {
+    font-weight: var(--fw-semibold);
+    color: var(--color-accent-text);
+  }
+
+  /* Collapsible section */
   .nav__mobile-section {
     display: flex;
     flex-direction: column;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .nav__mobile-section-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--space-4) var(--space-2);
+    font-family: var(--font-display);
+    font-size: var(--fs-body-lg);
+    font-weight: var(--fw-semibold);
+    color: var(--color-text-primary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    min-height: 52px;
+    transition: background var(--transition-fast), color var(--transition-fast);
+    touch-action: manipulation;
+  }
+
+  .nav__mobile-section-toggle:hover,
+  .nav__mobile-section-toggle:active {
+    background: var(--color-bg-secondary);
+  }
+
+  .nav__mobile-section-toggle[aria-expanded="true"] {
+    color: var(--color-accent-text);
+  }
+
+  .nav__mobile-section-arrow {
+    transition: transform var(--transition-fast);
+    flex-shrink: 0;
+    color: var(--color-text-tertiary);
+  }
+
+  .nav__mobile-section-toggle[aria-expanded="true"] .nav__mobile-section-arrow {
+    transform: rotate(180deg);
+    color: var(--color-accent-text);
   }
 
   .nav__mobile-section-title {
     font-family: var(--font-display);
-    font-size: var(--fs-xs);
-    font-weight: var(--fw-bold);
-    text-transform: uppercase;
-    letter-spacing: var(--ls-wider);
-    color: var(--color-accent-text);
-    padding: var(--space-4) 0 var(--space-1);
+    font-size: var(--fs-body-lg);
+    font-weight: var(--fw-semibold);
+  }
+
+  .nav__mobile-section-links {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: var(--space-2);
+    animation: slideDown 0.2s var(--ease-out);
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .nav__mobile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding-top: var(--space-6);
+    margin-top: auto;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .nav__mobile-cta {
+    width: 100%;
+    text-align: center;
   }
 
   /* Dark Hero Variant — white text before scroll */
@@ -463,8 +586,9 @@ const currentPath = Astro.url.pathname;
     const header = document.getElementById('nav-header');
     const toggle = document.getElementById('mobile-toggle');
     const menu = document.getElementById('mobile-menu');
+    const backdrop = document.getElementById('mobile-backdrop');
 
-    // Dark hero detection — check if page has a dark image hero
+    // Dark hero detection
     const hasDarkHero = !!document.querySelector('.hero, .sport-hero, .historia-hero, .socios-hero, .contacto-hero');
     if (hasDarkHero) {
       header?.classList.add('nav--hero-dark');
@@ -483,22 +607,61 @@ const currentPath = Astro.url.pathname;
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    // Mobile toggle
+    // Open / close mobile menu
+    const openMenu = () => {
+      toggle?.classList.add('open');
+      menu?.classList.add('open');
+      backdrop?.classList.add('open');
+      toggle?.setAttribute('aria-expanded', 'true');
+      menu?.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeMenu = () => {
+      toggle?.classList.remove('open');
+      menu?.classList.remove('open');
+      backdrop?.classList.remove('open');
+      toggle?.setAttribute('aria-expanded', 'false');
+      menu?.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+
     toggle?.addEventListener('click', () => {
       const isOpen = menu?.classList.contains('open');
-      toggle.classList.toggle('open');
-      menu?.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', String(!isOpen));
-      menu?.setAttribute('aria-hidden', String(!!isOpen));
-      document.body.style.overflow = isOpen ? '' : 'hidden';
+      isOpen ? closeMenu() : openMenu();
     });
+
+    // Close on backdrop click
+    backdrop?.addEventListener('click', closeMenu);
 
     // Close on link click
     menu?.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
-        toggle?.classList.remove('open');
-        menu?.classList.remove('open');
-        document.body.style.overflow = '';
+      link.addEventListener('click', closeMenu);
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menu?.classList.contains('open')) {
+        closeMenu();
+        toggle?.focus();
+      }
+    });
+
+    // Collapsible sections
+    menu?.querySelectorAll('.nav__mobile-section-toggle').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        const targetId = btn.getAttribute('aria-controls');
+        const target = targetId ? document.getElementById(targetId) : null;
+
+        btn.setAttribute('aria-expanded', String(!expanded));
+        if (target) {
+          if (expanded) {
+            target.hidden = true;
+          } else {
+            target.hidden = false;
+          }
+        }
       });
     });
 

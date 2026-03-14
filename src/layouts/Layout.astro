@@ -96,6 +96,120 @@ const fullTitle = title ? `${title} — GSC Carcavelos` : 'Grupo Sportivo de Car
       <slot />
     </main>
     <Footer />
+
+    <!-- Mobile Sticky CTA Bar -->
+    <div class="mobile-cta-bar" id="mobile-cta-bar" aria-hidden="true">
+      <a href="/socios" class="mobile-cta-bar__btn btn btn--primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        Torna-te Sócio
+      </a>
+      <button class="mobile-cta-bar__dismiss" id="mobile-cta-dismiss" aria-label="Fechar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <style>
+      .mobile-cta-bar {
+        display: none;
+      }
+
+      @media (max-width: 768px) {
+        .mobile-cta-bar {
+          display: flex;
+          align-items: center;
+          gap: var(--space-3);
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          padding: var(--space-3) var(--space-4);
+          padding-bottom: calc(var(--space-3) + env(safe-area-inset-bottom, 0px));
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border-top: 1px solid var(--color-border);
+          box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.1);
+          z-index: calc(var(--z-sticky) - 1);
+          transform: translateY(100%);
+          transition: transform var(--transition-slow);
+        }
+
+        .mobile-cta-bar.visible {
+          transform: translateY(0);
+        }
+
+        .mobile-cta-bar.hidden {
+          display: none;
+        }
+
+        .mobile-cta-bar__btn {
+          flex: 1;
+          justify-content: center;
+          gap: var(--space-2);
+          min-height: 48px;
+          font-size: var(--fs-body);
+        }
+
+        .mobile-cta-bar__dismiss {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          height: 40px;
+          border-radius: var(--radius-md);
+          background: var(--color-bg-secondary);
+          color: var(--color-text-tertiary);
+          flex-shrink: 0;
+          transition: background var(--transition-fast);
+          touch-action: manipulation;
+        }
+
+        .mobile-cta-bar__dismiss:hover {
+          background: var(--color-bg-tertiary);
+          color: var(--color-text-primary);
+        }
+      }
+    </style>
+
+    <script>
+      function initMobileCtaBar() {
+        const bar = document.getElementById('mobile-cta-bar');
+        const dismiss = document.getElementById('mobile-cta-dismiss');
+
+        if (!bar) return;
+
+        // Don't show on socios page (already on sign-up page)
+        if (window.location.pathname === '/socios') return;
+
+        // Don't show if previously dismissed (session)
+        if (sessionStorage.getItem('cta-bar-dismissed')) {
+          bar.classList.add('hidden');
+          return;
+        }
+
+        // Show after scrolling past the hero (300px)
+        let shown = false;
+        const onScroll = () => {
+          if (!shown && window.scrollY > 300) {
+            shown = true;
+            bar.classList.add('visible');
+            bar.setAttribute('aria-hidden', 'false');
+          }
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+
+        dismiss?.addEventListener('click', () => {
+          bar.classList.remove('visible');
+          sessionStorage.setItem('cta-bar-dismissed', '1');
+          setTimeout(() => bar.classList.add('hidden'), 400);
+        });
+      }
+
+      initMobileCtaBar();
+      document.addEventListener('astro:after-swap', initMobileCtaBar);
+    </script>
+
     <ImageLoader />
 
     <!-- Smooth Scroll Reveal -->
