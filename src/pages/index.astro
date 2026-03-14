@@ -35,6 +35,7 @@ import { heroContent, stats, sports, values, socioBenefits, events, siteConfig }
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero__bg">
+      <div class="hero__photo"></div>
       <div class="hero__gradient"></div>
       <div class="hero__grid"></div>
     </div>
@@ -73,6 +74,25 @@ import { heroContent, stats, sports, values, socioBenefits, events, siteConfig }
     </div>
   </section>
 
+  <!-- Galeria -->
+  <section class="section bg-dots">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="badge">Galeria</span>
+        <h2 class="text-h2">Campo da <span class="text-gradient">Quinta Nova</span></h2>
+        <p>Recinto desportivo renovado com investimento de 300 000€, inaugurado em janeiro de 2023.</p>
+      </div>
+      <div class="gallery-grid reveal">
+        <img src="/images/sports/futebol.png" alt="Futebol no GSC — Campo da Quinta Nova" class="gallery-img gallery-img--featured" loading="lazy" />
+        <img src="/images/gallery/campo-1.jpg" alt="Jogo do GSC Carcavelos" loading="lazy" class="gallery-img" />
+        <img src="/images/gallery/campo-2.jpg" alt="GSC Carcavelos em campo" loading="lazy" class="gallery-img" />
+        <img src="/images/sports/ginastica.png" alt="Ginástica — GSC Carcavelos" loading="lazy" class="gallery-img" />
+        <img src="/images/gallery/campo-3.jpg" alt="GSC Carcavelos — jogo" loading="lazy" class="gallery-img" />
+        <img src="/images/sports/karate.png" alt="Karaté — GSC Carcavelos" loading="lazy" class="gallery-img" />
+      </div>
+    </div>
+  </section>
+
   <!-- Modalidades -->
   <section class="section">
     <div class="container">
@@ -84,6 +104,11 @@ import { heroContent, stats, sports, values, socioBenefits, events, siteConfig }
       <div class="grid grid--5">
         {sports.map((sport, i) => (
           <a href={`/modalidades/${sport.slug}`} class={`card card--interactive sport-card sport-color--${sport.color} reveal reveal-delay-${i + 1}`}>
+            {sport.image && sport.image.endsWith('.png') && (
+              <div class="sport-card__img">
+                <img src={sport.image} alt={sport.name} loading="lazy" />
+              </div>
+            )}
             <div class="sport-card__icon" style={`background: var(--sport-accent-muted); color: var(--sport-accent);`}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/></svg>
             </div>
@@ -201,6 +226,15 @@ import { heroContent, stats, sports, values, socioBenefits, events, siteConfig }
     pointer-events: none;
   }
 
+  .hero__photo {
+    position: absolute;
+    inset: 0;
+    background-image: url('/images/gallery/campo-1.jpg');
+    background-size: cover;
+    background-position: center 40%;
+    opacity: 0.07;
+  }
+
   .hero__gradient {
     position: absolute;
     top: -30%;
@@ -282,20 +316,110 @@ import { heroContent, stats, sports, values, socioBenefits, events, siteConfig }
 
   /* Sport Cards */
   .sport-card {
-    padding: var(--space-6);
+    padding: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
+    gap: 0;
     text-decoration: none;
+    overflow: hidden;
+  }
+
+  .sport-card__img {
+    width: 100%;
+    height: 140px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .sport-card__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .sport-card:hover .sport-card__img img {
+    transform: scale(1.05);
   }
 
   .sport-card__icon {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     border-radius: var(--radius-lg);
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: var(--space-5) var(--space-5) 0;
+  }
+
+  .sport-card__title {
+    padding: 0 var(--space-5);
+  }
+
+  .sport-card__desc {
+    padding: 0 var(--space-5);
+  }
+
+  .sport-card__link {
+    padding: 0 var(--space-5) var(--space-5);
+  }
+
+  /* Gallery */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    gap: var(--space-3);
+  }
+
+  .gallery-img--featured {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .gallery-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: var(--radius-xl);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .gallery-img--featured {
+    height: 100%;
+    min-height: 350px;
+  }
+
+  .gallery-img:hover {
+    transform: scale(1.02);
+    box-shadow: var(--shadow-xl);
+  }
+
+  @media (max-width: 768px) {
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .gallery-img--featured {
+      grid-column: span 2;
+      grid-row: span 1;
+      min-height: 200px;
+      height: 200px;
+    }
+
+    .gallery-img {
+      height: 160px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .gallery-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .gallery-img--featured {
+      grid-column: span 1;
+    }
   }
 
   .sport-card__title {
