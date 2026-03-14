@@ -1,6 +1,6 @@
 export const siteConfig = {
     name: 'Grupo Sportivo de Carcavelos',
-    shortName: 'GSC',
+    shortName: 'GS',
     tagline: 'Fundado em 1922',
     contactEmail: 'gscarcavelos@gmail.com',
     phone: '+351 214 570 894',
@@ -129,7 +129,7 @@ export const socioBenefits = [
     { title: 'Multi-desporto', desc: 'Acesso a 5 modalidades desportivas com horários flexíveis.', color: 'green', icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>' },
     { title: 'Seguro Desportivo', desc: 'Cobertura de seguro para a prática desportiva.', color: 'violet', icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>' },
     { title: 'Eventos Exclusivos', desc: 'Beach Cup, torneios e atividades sociais do clube.', color: 'amber', icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>' },
-    { title: 'Descontos Parceiros', desc: 'Vantagens em lojas e serviços parceiros do GSC.', color: 'green', icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>' },
+    { title: 'Descontos Parceiros', desc: 'Vantagens em lojas e serviços parceiros do GS.', color: 'green', icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>' },
     { title: 'Voto em Assembleia', desc: 'Participação ativa nas decisões do clube.', color: 'violet', icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' },
     { title: 'Formação Contínua', desc: 'Acesso a workshops e formações desportivas.', color: 'amber', icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>' },
 ];
@@ -145,5 +145,5 @@ export const events = [
     { title: 'Cascais Beach Cup 2026', date: 'Jul 2026', desc: 'Torneio de futebol de praia na costa de Cascais.', tag: 'Torneio', color: 'green' },
     { title: 'Abertura de Época 2025/2026', date: 'Set 2025', desc: 'Início da nova temporada desportiva em todas as modalidades.', tag: 'Clube', color: 'violet' },
     { title: 'Assembleia Geral', date: 'Jan 2026', desc: 'Aprovação do relatório de contas e plano de atividades.', tag: 'Assembleia', color: 'amber' },
-    { title: 'Festa de Natal GSC', date: 'Dez 2025', desc: 'Convívio natalício para sócios, atletas e famílias.', tag: 'Social', color: 'green' },
+    { title: 'Festa de Natal GS', date: 'Dez 2025', desc: 'Convívio natalício para sócios, atletas e famílias.', tag: 'Social', color: 'green' },
 ];
